@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  <context id="context1">
+  
+    <jdbcConnection connectionURL="jdbc:mysql://172.16.8.28:3306/dvpsmcdb?useUnicode=true" 
+    driverClass="com.mysql.jdbc.Driver" password="dvpsmcdb" userId="dvpsmcdb" />
+    <javaModelGenerator targetPackage="com.x.ic.msg.dao.mapper.bo" targetProject="x-smc-rtm/src/main/java" />
+    <sqlMapGenerator targetPackage="mybatis.mapper" targetProject="x-smc-rtm/src/main/resources" />
+    <javaClientGenerator targetPackage="com.x.ic.msg.dao.mapper.interfaces" targetProject="x-smc-rtm/src/main/java" type="XMLMAPPER" />
+    
+    <table schema="" tableName="stl_policy_instn" domainObjectName="StlPolicyInstn"></table>
+   
+  
+  </context>
+</generatorConfiguration>

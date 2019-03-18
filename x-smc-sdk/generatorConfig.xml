@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  <context id="smc-sdk">
+  
+    <jdbcConnection connectionURL="jdbc:mysql://172.16.8.28:3306/dvpsmcdb?useUnicode=true" 
+    driverClass="com.mysql.jdbc.Driver" password="dvpsmcdb" userId="dvpsmcdb" />
+    <javaModelGenerator targetPackage="com.x.ic.smc.sdk.cache.vo" targetProject="x-smc-sdk/src/main/java" />
+
+    <table schema="" tableName="stl_element" domainObjectName="Element"></table>
+    <table schema="" tableName="stl_element_attr" domainObjectName="ElementAttr"></table>
+    <table schema="" tableName="stl_node" domainObjectName="Node"></table>
+    <table schema="" tableName="stl_node_element_mapping" domainObjectName="NodeElementMapping"></table>
+    <table schema="" tableName="stl_policy" domainObjectName="Policy"></table>
+    <table schema="" tableName="stl_policy_instn" domainObjectName="PolicyInstn"></table>
+    <table schema="" tableName="stl_policy_item" domainObjectName="PolicyItem"></table>
+    <table schema="" tableName="stl_policy_item_condition" domainObjectName="PolicyItemCondition"></table>
+    <table schema="" tableName="stl_policy_item_plan" domainObjectName="PolicyItemPlan"></table>
+    <table schema="" tableName="stl_policy_item_plan_instn" domainObjectName="PolicyItemPlanInstn"></table>
+    <table schema="" tableName="stl_policy_task_cycle" domainObjectName="PolicyTaskCycle"></table>
+    <table schema="" tableName="stl_sys_param" domainObjectName="SysParam"></table>
+   
+  
+  </context>
+</generatorConfiguration>

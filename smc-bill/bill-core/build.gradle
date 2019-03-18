@@ -1,0 +1,51 @@
+configurations {
+    provided
+    compile.extendsFrom provided
+    //all*.exclude group: 'org.apache.logging.log4j',module:'log4j-slf4j-impl'
+    //all*.exclude group: 'org.slf4j',module:'log4j-over-slf4j'
+    //all*.exclude group: 'org.apache.logging.log4j'
+}
+
+dependencies {
+    compile project(":bill-api")
+    compile 'org.mybatis:mybatis:3.3.0'
+    compile 'org.mybatis:mybatis-spring:1.2.3'
+    compile 'mysql:mysql-connector-java:5.1.36'
+    
+    compile 'org.springframework:spring-tx:4.1.7.RELEASE'
+    compile 'org.springframework:spring-jdbc:4.1.7.RELEASE'	
+    compile 'org.springframework:spring-beans:4.1.7.RELEASE'	
+    compile 'org.springframework:spring-context:4.1.7.RELEASE'	
+    
+    compile 'com.github.pagehelper:pagehelper:5.1.2'	
+    compile 'com.alibaba:fastjson:1.1.37'
+    compile 'org.javassist:javassist:3.18.2-GA'
+    compile 'org.mortbay.jetty:jetty-util:6.1.26'
+    compile ('org.mortbay.jetty:jetty:6.1.26'){
+		exclude group: 'org.mortbay.jetty', module: 'servlet-api'
+	}
+	compile 'javax.servlet:javax.servlet-api:3.0.1'
+    
+	compile ('com.x:sdk:1.0.1-SNAPSHOT') {
+		exclude group: 'org.dom4j', module: 'dom4j'
+	}
+	
+	compile 'com.x:x-smc-sdk:1.0.0-SNAPSHOT'	
+	
+	// 强制使用版本解决冲突
+    compile (group: 'com.google.guava', name: 'guava', version: '12.0.1') {
+        force = true
+    }
+	
+	//compile 'log4j:log4j:1.2.17'
+	//compile 'org.slf4j:slf4j-nop:1.7.2'
+	compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.8.2'
+	compile 'org.slf4j:slf4j-api:1.7.25'
+	compile 'org.apache.logging.log4j:log4j-api:2.8.2'
+	compile 'org.apache.logging.log4j:log4j-core:2.8.2'
+	
+   testCompile(
+            "org.springframework:spring-test:4.1.7.RELEASE",
+           "junit:junit:4.12"
+   )
+}

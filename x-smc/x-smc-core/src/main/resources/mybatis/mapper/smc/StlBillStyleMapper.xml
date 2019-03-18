@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.x.ic.smc.dao.mapper.interfaces.StlBillStyleMapper" >
+  <resultMap id="BaseResultMap" type="com.x.ic.smc.dao.mapper.bo.StlBillStyle" >
+    <id column="BILL_STYLE_ID" property="billStyleId" jdbcType="BIGINT" />
+    <result column="TENANT_ID" property="tenantId" jdbcType="VARCHAR" />
+    <result column="BILL_STYLE_SN" property="billStyleSn" jdbcType="VARCHAR" />
+    <result column="BILL_TITLE" property="billTitle" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+    <result column="CREATE_DEPT_ID" property="createDeptId" jdbcType="VARCHAR" />
+    <result column="CREATE_OPER_ID" property="createOperId" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DEPT_ID" property="updateDeptId" jdbcType="VARCHAR" />
+    <result column="UPDATE_OPER_ID" property="updateOperId" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    BILL_STYLE_ID, TENANT_ID, BILL_STYLE_SN, BILL_TITLE, STATE, CREATE_DEPT_ID, CREATE_OPER_ID, 
+    CREATE_TIME, UPDATE_DEPT_ID, UPDATE_OPER_ID, UPDATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.x.ic.smc.dao.mapper.bo.StlBillStyleCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from stl_bill_style
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from stl_bill_style
+    where BILL_STYLE_ID = #{billStyleId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="Long" >
+    delete from stl_bill_style
+    where BILL_STYLE_ID = #{billStyleId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.x.ic.smc.dao.mapper.bo.StlBillStyleCriteria" >
+    delete from stl_bill_style
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.x.ic.smc.dao.mapper.bo.StlBillStyle" >
+    insert into stl_bill_style (BILL_STYLE_ID, TENANT_ID, BILL_STYLE_SN, 
+      BILL_TITLE, STATE, CREATE_DEPT_ID, 
+      CREATE_OPER_ID, CREATE_TIME, UPDATE_DEPT_ID, 
+      UPDATE_OPER_ID, UPDATE_TIME)
+    values (#{billStyleId,jdbcType=BIGINT}, #{tenantId,jdbcType=VARCHAR}, #{billStyleSn,jdbcType=VARCHAR}, 
+      #{billTitle,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{createDeptId,jdbcType=VARCHAR}, 
+      #{createOperId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateDeptId,jdbcType=VARCHAR}, 
+      #{updateOperId,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.x.ic.smc.dao.mapper.bo.StlBillStyle" >
+    insert into stl_bill_style
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="billStyleId != null" >
+        BILL_STYLE_ID,
+      </if>
+      <if test="tenantId != null" >
+        TENANT_ID,
+      </if>
+      <if test="billStyleSn != null" >
+        BILL_STYLE_SN,
+      </if>
+      <if test="billTitle != null" >
+        BILL_TITLE,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+      <if test="createDeptId != null" >
+        CREATE_DEPT_ID,
+      </if>
+      <if test="createOperId != null" >
+        CREATE_OPER_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateDeptId != null" >
+        UPDATE_DEPT_ID,
+      </if>
+      <if test="updateOperId != null" >
+        UPDATE_OPER_ID,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="billStyleId != null" >
+        #{billStyleId,jdbcType=BIGINT},
+      </if>
+      <if test="tenantId != null" >
+        #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="billStyleSn != null" >
+        #{billStyleSn,jdbcType=VARCHAR},
+      </if>
+      <if test="billTitle != null" >
+        #{billTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="createDeptId != null" >
+        #{createDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="createOperId != null" >
+        #{createOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDeptId != null" >
+        #{updateDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateOperId != null" >
+        #{updateOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.x.ic.smc.dao.mapper.bo.StlBillStyleCriteria" resultType="java.lang.Integer" >
+    select count(*) from stl_bill_style
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update stl_bill_style
+    <set >
+      <if test="record.billStyleId != null" >
+        BILL_STYLE_ID = #{record.billStyleId,jdbcType=BIGINT},
+      </if>
+      <if test="record.tenantId != null" >
+        TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.billStyleSn != null" >
+        BILL_STYLE_SN = #{record.billStyleSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.billTitle != null" >
+        BILL_TITLE = #{record.billTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null" >
+        STATE = #{record.state,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDeptId != null" >
+        CREATE_DEPT_ID = #{record.createDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createOperId != null" >
+        CREATE_OPER_ID = #{record.createOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDeptId != null" >
+        UPDATE_DEPT_ID = #{record.updateDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateOperId != null" >
+        UPDATE_OPER_ID = #{record.updateOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update stl_bill_style
+    set BILL_STYLE_ID = #{record.billStyleId,jdbcType=BIGINT},
+      TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      BILL_STYLE_SN = #{record.billStyleSn,jdbcType=VARCHAR},
+      BILL_TITLE = #{record.billTitle,jdbcType=VARCHAR},
+      STATE = #{record.state,jdbcType=VARCHAR},
+      CREATE_DEPT_ID = #{record.createDeptId,jdbcType=VARCHAR},
+      CREATE_OPER_ID = #{record.createOperId,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      UPDATE_DEPT_ID = #{record.updateDeptId,jdbcType=VARCHAR},
+      UPDATE_OPER_ID = #{record.updateOperId,jdbcType=VARCHAR},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.x.ic.smc.dao.mapper.bo.StlBillStyle" >
+    update stl_bill_style
+    <set >
+      <if test="tenantId != null" >
+        TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="billStyleSn != null" >
+        BILL_STYLE_SN = #{billStyleSn,jdbcType=VARCHAR},
+      </if>
+      <if test="billTitle != null" >
+        BILL_TITLE = #{billTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="createDeptId != null" >
+        CREATE_DEPT_ID = #{createDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="createOperId != null" >
+        CREATE_OPER_ID = #{createOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDeptId != null" >
+        UPDATE_DEPT_ID = #{updateDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateOperId != null" >
+        UPDATE_OPER_ID = #{updateOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where BILL_STYLE_ID = #{billStyleId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.x.ic.smc.dao.mapper.bo.StlBillStyle" >
+    update stl_bill_style
+    set TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      BILL_STYLE_SN = #{billStyleSn,jdbcType=VARCHAR},
+      BILL_TITLE = #{billTitle,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=VARCHAR},
+      CREATE_DEPT_ID = #{createDeptId,jdbcType=VARCHAR},
+      CREATE_OPER_ID = #{createOperId,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_DEPT_ID = #{updateDeptId,jdbcType=VARCHAR},
+      UPDATE_OPER_ID = #{updateOperId,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where BILL_STYLE_ID = #{billStyleId,jdbcType=BIGINT}
+  </update>
+</mapper>

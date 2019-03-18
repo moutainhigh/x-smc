@@ -1,0 +1,3 @@
+#Dubbo Registry Cache
+#Wed May 09 16:21:32 CST 2018
+com.x.ic.dshm.api.dshmprocess.interfaces.IdshmSV=empty\://172.16.63.19\:10882/dshm-center/com.x.ic.dshm.api.dshmprocess.interfaces.IdshmSV?accepts\=500&anyhost\=true&application\=dshm-center&category\=configurators&check\=false&default.timeout\=200000&dubbo\=2.8.3&generic\=false&interface\=com.x.ic.dshm.api.dshmprocess.interfaces.IdshmSV&methods\=fullLoader,pagingTableInfo,refreshLoader,shmDelete,getTableFieldRecord,initLoader,ListFiledName,ListDBName,ListTableName,delByHashKey,queryByHashKey,initdel,deleteTable,addTable&pid\=9215&server\=tomcat&side\=provider&threads\=500&timestamp\=1525854092025

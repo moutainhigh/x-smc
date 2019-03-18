@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:cache="http://www.springframework.org/schema/cache" xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+       http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.0.xsd">
+    
+    <!-- 开启事务控制的注解支持 -->
+	<tx:annotation-driven />
+    
+    <context:property-placeholder location="classpath:context/jdbc.properties"/>
+    
+    <!-- Mysql数据源 -->
+    <!-- <bean id="mysqlDataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="${mysql.jdbc.driver}"/>
+        <property name="url" value="${mysql.jdbc.url}"/>
+        <property name="username" value="${mysql.jdbc.username}"/>
+        <property name="password" value="${mysql.jdbc.password}"/>
+        <property name="defaultAutoCommit" value="true" />
+    </bean>
+   
+	<bean id="mysqlJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="mysqlDataSource" />
+	</bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="mysqlDataSource"/>
+        <property name="mapperLocations" value="classpath*:mybatis/mapper/*.xml" />
+    </bean> -->
+    
+    <!-- 配置数据源 -->
+	<bean id="mysqlDataSource" class="com.x.sdk.datasource.XHikariDataSource">
+		<constructor-arg name="dataSourceName" value="1" />
+	</bean>
+
+	<bean id="seqDataSourceLoader"
+		class="com.x.sdk.component.sequence.datasource.SeqDataSourceLoader"
+		init-method="init">
+		<property name="ds" ref="mysqlDataSource" />
+	</bean>
+
+	<!-- 配置myBatis的sqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="mysqlDataSource" />
+		<property name="mapperLocations" value="classpath:mybatis/mapper/*.xml" />
+	</bean>
+
+    <!-- 配置SqlSessionTemplate -->
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
+	<!--需要将定时任务的配置加载进来   -->
+
+    <!-- 事务配置 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="mysqlDataSource"/>
+    </bean>
+	 <!-- 使用annotation注解方式配置事务 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+	 <!-- 启动注解扫描 -->
+    <context:annotation-config/> 
+    <!-- 配置扫描器 -->
+	<context:component-scan base-package="com.x.ic.dshm" />
+    <!-- 设定注解扫描基础包 -->
+	<bean id="cacheDso" class="com.x.ic.dshm.dso.impl.CacheDso">  
+	</bean> 
+	<bean id="dataBaseDao" class="com.x.ic.dshm.dao.impl.DataBaseDao">  
+	</bean>
+	<bean id="transportService" class="com.x.ic.dshm.service.impl.TransportServiceImpl">
+    	<!-- 选择数据源dao -->
+		<property name="dao" ref="dataBaseDao"></property>   	
+		<!-- 选择数据存储的dso -->
+		<property name="dso" ref="cacheDso"></property>   
+    </bean>
+    <bean id="dshmsv" class="com.x.ic.dshm.api.dshmprocess.impl.DshmSVImpl">
+    </bean>
+</beans>

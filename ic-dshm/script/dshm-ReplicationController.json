@@ -1,0 +1,66 @@
+{
+"apiVersion": "v1",
+"kind": "ReplicationController",
+"metadata":{
+    "name": "dshm-rc",
+    "namespace": "unit-test"
+},
+"spec":{
+  "replicas": 1,
+  "selector":{
+        "app": "dshm-pod"
+    },
+  "template":{
+    "metadata":{
+          "name": "dshm",
+          "labels":{
+                "app": "dshm-pod"
+            }
+     },
+    "spec":{
+      "containers":[{
+        "name": "dshm",
+        "image": "biu-bj-baas-app3:5000/baas-dshm:1.0",
+        "imagePullPolicy": "IfNotPresent",
+        "ports":[{
+             "containerPort": 10501
+          }],
+         "env":[{
+             "name": "DUBBO_REGISTRY_ADDR",
+             "value":"10.1.234.160:28381"
+         },{
+             "name": "DUBBO_PORT",
+             "value":"30501"
+         },{
+             "name": "CONTEXT_PATH",
+             "value":"baas-dshm"
+         },{
+             "name": "DUBBO_PROTOCOL",
+             "value":"rest"
+         },{
+             "name": "DB_HOST",
+             "value":"10.1.234.163"
+         },{
+             "name": "DB_NAME",
+             "value":"sysdb1"
+         },{
+             "name": "DB_USRER",
+             "value":"sys01"
+         },{
+             "name": "DB_PWD",
+             "value":"sys01"
+         },{
+             "name": "CCS_NAME",
+             "value":"aiopt-baas-dshm"
+         },{
+             "name": "ZK_ADDRESS",
+             "value":"10.1.234.160:28381"
+         },{
+             "name": "SDK_MODE",
+             "value":"1"
+         }]
+        }]
+      }
+    }
+}
+}

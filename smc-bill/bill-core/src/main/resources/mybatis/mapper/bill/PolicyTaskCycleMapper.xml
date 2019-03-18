@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.x.smc.bill.dao.mapper.interfaces.PolicyTaskCycleMapper" >
+  <resultMap id="BaseResultMap" type="com.x.smc.bill.dao.mapper.bo.PolicyTaskCycle" >
+    <id column="POLICY_CYCLE_ID" property="policyCycleId" jdbcType="VARCHAR" />
+    <result column="POLICY_CYCLE_CODE" property="policyCycleCode" jdbcType="VARCHAR" />
+    <result column="POLICY_ID" property="policyId" jdbcType="BIGINT" />
+    <result column="OBJECT_TYPE" property="objectType" jdbcType="VARCHAR" />
+    <result column="OBJECT_CODE" property="objectCode" jdbcType="VARCHAR" />
+    <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="TENANT_ID" property="tenantId" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_STAFF_ID" property="createStaffId" jdbcType="VARCHAR" />
+    <result column="CYCLE_VALUE" property="cycleValue" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    POLICY_CYCLE_ID, POLICY_CYCLE_CODE, POLICY_ID, OBJECT_TYPE, OBJECT_CODE, START_TIME, 
+    END_TIME, STATUS, TENANT_ID, CREATE_DATE, UPDATE_TIME, CREATE_STAFF_ID, CYCLE_VALUE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.x.smc.bill.dao.mapper.bo.PolicyTaskCycleCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from stl_policy_task_cycle
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from stl_policy_task_cycle
+    where POLICY_CYCLE_ID = #{policyCycleId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from stl_policy_task_cycle
+    where POLICY_CYCLE_ID = #{policyCycleId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.x.smc.bill.dao.mapper.bo.PolicyTaskCycleCriteria" >
+    delete from stl_policy_task_cycle
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.x.smc.bill.dao.mapper.bo.PolicyTaskCycle" >
+    insert into stl_policy_task_cycle (POLICY_CYCLE_ID, POLICY_CYCLE_CODE, POLICY_ID, 
+      OBJECT_TYPE, OBJECT_CODE, START_TIME, 
+      END_TIME, STATUS, TENANT_ID, 
+      CREATE_DATE, UPDATE_TIME, CREATE_STAFF_ID, 
+      CYCLE_VALUE)
+    values (#{policyCycleId,jdbcType=VARCHAR}, #{policyCycleCode,jdbcType=VARCHAR}, #{policyId,jdbcType=BIGINT}, 
+      #{objectType,jdbcType=VARCHAR}, #{objectCode,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{tenantId,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{createStaffId,jdbcType=VARCHAR}, 
+      #{cycleValue,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.x.smc.bill.dao.mapper.bo.PolicyTaskCycle" >
+    insert into stl_policy_task_cycle
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="policyCycleId != null" >
+        POLICY_CYCLE_ID,
+      </if>
+      <if test="policyCycleCode != null" >
+        POLICY_CYCLE_CODE,
+      </if>
+      <if test="policyId != null" >
+        POLICY_ID,
+      </if>
+      <if test="objectType != null" >
+        OBJECT_TYPE,
+      </if>
+      <if test="objectCode != null" >
+        OBJECT_CODE,
+      </if>
+      <if test="startTime != null" >
+        START_TIME,
+      </if>
+      <if test="endTime != null" >
+        END_TIME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="tenantId != null" >
+        TENANT_ID,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="createStaffId != null" >
+        CREATE_STAFF_ID,
+      </if>
+      <if test="cycleValue != null" >
+        CYCLE_VALUE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="policyCycleId != null" >
+        #{policyCycleId,jdbcType=VARCHAR},
+      </if>
+      <if test="policyCycleCode != null" >
+        #{policyCycleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="policyId != null" >
+        #{policyId,jdbcType=BIGINT},
+      </if>
+      <if test="objectType != null" >
+        #{objectType,jdbcType=VARCHAR},
+      </if>
+      <if test="objectCode != null" >
+        #{objectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="tenantId != null" >
+        #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createStaffId != null" >
+        #{createStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleValue != null" >
+        #{cycleValue,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.x.smc.bill.dao.mapper.bo.PolicyTaskCycleCriteria" resultType="java.lang.Integer" >
+    select count(*) from stl_policy_task_cycle
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update stl_policy_task_cycle
+    <set >
+      <if test="record.policyCycleId != null" >
+        POLICY_CYCLE_ID = #{record.policyCycleId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.policyCycleCode != null" >
+        POLICY_CYCLE_CODE = #{record.policyCycleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.policyId != null" >
+        POLICY_ID = #{record.policyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.objectType != null" >
+        OBJECT_TYPE = #{record.objectType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.objectCode != null" >
+        OBJECT_CODE = #{record.objectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startTime != null" >
+        START_TIME = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null" >
+        END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tenantId != null" >
+        TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createStaffId != null" >
+        CREATE_STAFF_ID = #{record.createStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cycleValue != null" >
+        CYCLE_VALUE = #{record.cycleValue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update stl_policy_task_cycle
+    set POLICY_CYCLE_ID = #{record.policyCycleId,jdbcType=VARCHAR},
+      POLICY_CYCLE_CODE = #{record.policyCycleCode,jdbcType=VARCHAR},
+      POLICY_ID = #{record.policyId,jdbcType=BIGINT},
+      OBJECT_TYPE = #{record.objectType,jdbcType=VARCHAR},
+      OBJECT_CODE = #{record.objectCode,jdbcType=VARCHAR},
+      START_TIME = #{record.startTime,jdbcType=TIMESTAMP},
+      END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      CREATE_STAFF_ID = #{record.createStaffId,jdbcType=VARCHAR},
+      CYCLE_VALUE = #{record.cycleValue,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.x.smc.bill.dao.mapper.bo.PolicyTaskCycle" >
+    update stl_policy_task_cycle
+    <set >
+      <if test="policyCycleCode != null" >
+        POLICY_CYCLE_CODE = #{policyCycleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="policyId != null" >
+        POLICY_ID = #{policyId,jdbcType=BIGINT},
+      </if>
+      <if test="objectType != null" >
+        OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},
+      </if>
+      <if test="objectCode != null" >
+        OBJECT_CODE = #{objectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        START_TIME = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="tenantId != null" >
+        TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createStaffId != null" >
+        CREATE_STAFF_ID = #{createStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleValue != null" >
+        CYCLE_VALUE = #{cycleValue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where POLICY_CYCLE_ID = #{policyCycleId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.x.smc.bill.dao.mapper.bo.PolicyTaskCycle" >
+    update stl_policy_task_cycle
+    set POLICY_CYCLE_CODE = #{policyCycleCode,jdbcType=VARCHAR},
+      POLICY_ID = #{policyId,jdbcType=BIGINT},
+      OBJECT_TYPE = #{objectType,jdbcType=VARCHAR},
+      OBJECT_CODE = #{objectCode,jdbcType=VARCHAR},
+      START_TIME = #{startTime,jdbcType=TIMESTAMP},
+      END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=VARCHAR},
+      TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      CREATE_STAFF_ID = #{createStaffId,jdbcType=VARCHAR},
+      CYCLE_VALUE = #{cycleValue,jdbcType=VARCHAR}
+    where POLICY_CYCLE_ID = #{policyCycleId,jdbcType=VARCHAR}
+  </update>
+</mapper>

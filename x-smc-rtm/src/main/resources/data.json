@@ -1,0 +1,52 @@
+{
+   "data" : {
+      "arr" : [
+         {
+            "carr" : [
+               {
+                  "a" : "a",
+                  "b" : "b"
+               },
+               {
+                  "a" : "aa",
+                  "b" : "bb"
+               }
+            ],
+            "x" : "xx",
+            "y" : "yy"
+         },
+         {
+            "carr" : [
+               {
+                  "a" : "a",
+                  "b" : "b"
+               },
+               {
+                  "a" : "aa",
+                  "b" : "bb"
+               }
+            ],
+            "x" : "x",
+            "y" : "y"
+         }
+      ],
+      "busiTypeId" : "prodsale",
+      "completeDate" : 1526975950810,
+      "createDate" : 1526975917000,
+      "orderId" : 2000000019077208,
+      "orderProdDetailVos" : [
+         {
+            "productId" : "0000000000000723",
+            "productPrice" : "225"
+         },
+         {
+            "productId" : "0000000000000724",
+            "productPrice" : "226"
+         }
+      ],
+      "orderTypeId" : "1",
+      "state" : "90",
+      "tenantId" : "pubgo",
+      "userId" : "13243431238"
+   }
+}

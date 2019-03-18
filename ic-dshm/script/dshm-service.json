@@ -1,0 +1,19 @@
+{
+  "kind": "Service",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "dshm",
+    "namespace": "unit-test"
+  },
+  "spec": {
+      "ports": [{
+          "port": 10501,
+          "targetPort": 10501,
+          "nodePort":30501
+      }],
+      "selector": {
+           "app": "dshm-pod"
+      },
+      "type":"NodePort"
+  }
+}

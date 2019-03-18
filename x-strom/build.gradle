@@ -1,0 +1,120 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+
+sourceCompatibility = 1.8
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+ext {
+    moduleName = "x-storm";
+    moduleVersion = "1.0-SNAPSHOT"
+    publishUserName = "bonc-dev-app"
+    publishUserPassword = "bonc-dev-app"
+    publishURL = "http://172.16.8.35:8081/nexus/content/repositories/snapshots/"
+    //mavenPublicURL = "http://172.16.8.35:8081/nexus/nexus/content/groups/public/"
+    builtBy = "gradle 4.0.1"
+
+    stormCoreVersion = "0.9.6"
+    stormKafkaVersion = "0.9.6"
+    kafkaVersion = "0.8.2.1"
+    hbaseClientVersion = "1.1.2"
+    gsonVersion = "2.3.1"
+    commonsDBUtils = "1.5"
+}
+
+group = 'com.x.storm'
+
+
+repositories {
+    maven { url "http://172.16.8.35:8081/nexus/content/groups/public/" }
+}
+
+dependencies {
+    
+    compile 'com.google.code.gson:gson:' + gsonVersion
+    compile 'com.zaxxer:HikariCP:2.4.0'
+    compile 'commons-dbutils:commons-dbutils:' + commonsDBUtils
+    compile 'net.sf.json-lib:json-lib:2.4:jdk15'
+    compile 'org.apache.storm:storm-core:' + stormCoreVersion
+    compile 'org.apache.storm:storm-kafka:' + stormKafkaVersion
+    compile 'org.apache.kafka:kafka_2.10:' + kafkaVersion
+    compile 'org.apache.hbase:hbase-client:' + hbaseClientVersion
+}
+
+sourceSets {
+    main {
+        java { srcDirs = ['src/main/java'] }
+        resources { srcDirs = ['src/main/resources'] }
+    }
+    test {
+        java { srcDirs = ['src/test/java'] }
+        resources { srcDirs = ['src/test/resources'] }
+    }
+}
+
+jar {
+    include "com/x/storm/*/**"
+}
+
+publishing {
+    publications {
+        publishing.publications.create("${moduleName}", MavenPublication) {
+            groupId group
+            artifactId moduleName
+            version moduleVersion
+            artifact jar
+            pom.withXml {
+                asNode().children().last() + {
+                    delegate.dependencies {
+                        delegate.dependency {
+                            delegate.groupId("org.apache.storm")
+                            delegate.artifactId("storm-core")
+                            delegate.version(stormCoreVersion)
+
+
+                        }
+                        delegate.dependency {
+                            delegate.groupId("org.apache.storm")
+                            delegate.artifactId("storm-kafka")
+                            delegate.version(stormKafkaVersion)
+                        }
+                        delegate.dependency {
+                            delegate.groupId("org.apache.kafka")
+                            delegate.artifactId("kafka_2.10")
+                            delegate.version(kafkaVersion)
+                        }
+
+                        delegate.dependency {
+                            delegate.groupId("org.apache.hbase")
+                            delegate.artifactId("hbase-client")
+                            delegate.version(hbaseClientVersion)
+                        }
+
+                        delegate.dependency {
+                            delegate.groupId("com.google.code.gson")
+                            delegate.artifactId("gson")
+                            delegate.version(gsonVersion)
+                        }
+
+                        delegate.dependency {
+                            delegate.groupId("commons-dbutils")
+                            delegate.artifactId("commons-dbutils")
+                            delegate.version(commonsDBUtils)
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            url publishURL
+            credentials {
+                username = publishUserName
+                password = publishUserPassword
+            }
+        }
+    }
+}

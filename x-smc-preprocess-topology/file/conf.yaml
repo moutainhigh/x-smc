@@ -1,0 +1,78 @@
+topology.name: "SmcPreprocessFlow"
+topology.workers: 1
+topology.max.spout.pending: 2
+#topology.acker.executors: 6
+#topology.debug: false
+#bolt.slow.down: false
+#spout.parallel: 6
+#bolt.parallel: 12
+#send.sleep.second: 100
+#check.sequence: true
+#kryo.enable: true
+#fall.back.on.java.serialization: true
+
+#enable.split: false
+#topology.performance.metrics: true
+
+#topology.debug: false
+#topology.debug.recv.tuple: false
+#spout.single.thread: true
+
+topology.enable.classloader: false
+#worker.stop.without.supervisor: false
+
+#spout.max.sending.num: 2000000
+#worker.redirect.output.file: /proc/mounts
+
+#spout.pending.full.sleep: true
+
+#user.defined.log4j.conf: my.log4j.properties
+#isolation.scheduler.machines:
+#    - free-56-156.shucang.alipay.net
+#    - 10.209.69.27
+
+#user.defined.logback.conf: "jstorm.logback.2.xml"
+storm.cluster.mode: local
+
+jdbc.default: "{\"jdbc.driver\":\"com.mysql.jdbc.Driver\",\"jdbc.url\":\"jdbc:mysql://172.16.8.28:3306/dvpstldb?useUnicode: true&characterEncoding: UTF-8\",\"jdbc.username\":\"devstldbuser\",\"jdbc.password\":\"OTPstl~!@#1\"}"
+
+
+#kafka spout
+#kafka.spout.consumer.addr: "10.1.130.84:49181,10.1.130.85:49181,10.1.236.122:49181/kfk"
+#kafka.spout.topic: "BaasSmcPreprocessTopic"
+#kafka.spout.zk.server: "10.1.130.84"
+#kafka.spout.zk.port: "49181"
+#kafka.spout.parallel.num:"1"
+
+kafka.spout.consumer.addr: "172.16.8.27:39181,172.16.8.39:39181,172.16.8.31:39181"
+kafka.spout.topic: "x_rtm_preprocess_mds"
+kafka.spout.zk.server: "172.16.8.27"
+kafka.spout.zk.port: "39181"
+kafka.spout.parallel.num: "1"
+
+hbase.param: "{\"hbase.zookeeper.quorum\":\"172.16.8.27:39181\"}"
+
+
+# paas.auth.url: "http://10.1.245.4:19811/service-portal-uac-web/service/auth"
+# paas.auth.pid: "87EA5A771D9647F1B5EBB600812E3067"
+# paas.ccs.serviceid: "CCS014"
+# paas.ccs.servicepassword: "123456"
+
+redis.maxTotal: "1024"
+redis.maxIdle: "200"
+redis.numTestsPerEvictionRun: "1024"
+redis.timeBetweenEvictionRunsMillis: "30000"
+redis.minEvictableIdleTimeMillis: "-1"
+redis.softMinEvictableIdleTimeMillis: "10000"
+redis.maxWaitMillis: "1300"
+redis.testOnBorrow: "true"
+redis.testWhileIdle: "true"
+redis.testOnReturn: "true"
+redis.password: ""
+redis.blockWhenExhausted: "false"
+#redis的工作模式 sentinel|standalone
+redis.worktype: "standalone"
+redis.sentinel.masterName: ""
+redis.sentinel.sentinels: "172.16.8.28:6389"
+redis.standalone.server: "172.16.8.28:6389"
+

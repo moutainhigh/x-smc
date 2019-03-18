@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.x.smc.bill.dao.mapper.interfaces.StlBillItemDataMapper" >
+  <resultMap id="BaseResultMap" type="com.x.smc.bill.dao.mapper.bo.StlBillItemData" >
+    <id column="BILL_ITEM_ID" property="billItemId" jdbcType="BIGINT" />
+    <result column="BILL_ID" property="billId" jdbcType="BIGINT" />
+    <result column="TENANT_ID" property="tenantId" jdbcType="VARCHAR" />
+    <result column="ITEM_TYPE" property="itemType" jdbcType="VARCHAR" />
+    <result column="FEE_ITEM_ID" property="feeItemId" jdbcType="VARCHAR" />
+    <result column="TOTAL_FEE" property="totalFee" jdbcType="REAL" />
+    <result column="CHECK_STATE" property="checkState" jdbcType="VARCHAR" />
+    <result column="DIFF_FEE" property="diffFee" jdbcType="REAL" />
+    <result column="CHECK_STATE_DESC" property="checkStateDesc" jdbcType="VARCHAR" />
+    <result column="CHECK_TIME" property="checkTime" jdbcType="TIMESTAMP" />
+    <result column="ADJUST_TIME" property="adjustTime" jdbcType="TIMESTAMP" />
+    <result column="ADJUST_OPER_ID" property="adjustOperId" jdbcType="VARCHAR" />
+    <result column="ADJUST_DESC" property="adjustDesc" jdbcType="VARCHAR" />
+    <result column="CREATE_DEPT_ID" property="createDeptId" jdbcType="VARCHAR" />
+    <result column="CREATE_OPER_ID" property="createOperId" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    BILL_ITEM_ID, BILL_ID, TENANT_ID, ITEM_TYPE, FEE_ITEM_ID, TOTAL_FEE, CHECK_STATE, 
+    DIFF_FEE, CHECK_STATE_DESC, CHECK_TIME, ADJUST_TIME, ADJUST_OPER_ID, ADJUST_DESC, 
+    CREATE_DEPT_ID, CREATE_OPER_ID, CREATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.x.smc.bill.dao.mapper.bo.StlBillItemDataCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from stl_bill_item_data
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from stl_bill_item_data
+    where BILL_ITEM_ID = #{billItemId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="Long" >
+    delete from stl_bill_item_data
+    where BILL_ITEM_ID = #{billItemId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.x.smc.bill.dao.mapper.bo.StlBillItemDataCriteria" >
+    delete from stl_bill_item_data
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.x.smc.bill.dao.mapper.bo.StlBillItemData" >
+    insert into stl_bill_item_data (BILL_ITEM_ID, BILL_ID, TENANT_ID, 
+      ITEM_TYPE, FEE_ITEM_ID, TOTAL_FEE, 
+      CHECK_STATE, DIFF_FEE, CHECK_STATE_DESC, 
+      CHECK_TIME, ADJUST_TIME, ADJUST_OPER_ID, 
+      ADJUST_DESC, CREATE_DEPT_ID, CREATE_OPER_ID, 
+      CREATE_TIME)
+    values (#{billItemId,jdbcType=BIGINT}, #{billId,jdbcType=BIGINT}, #{tenantId,jdbcType=VARCHAR}, 
+      #{itemType,jdbcType=VARCHAR}, #{feeItemId,jdbcType=VARCHAR}, #{totalFee,jdbcType=REAL}, 
+      #{checkState,jdbcType=VARCHAR}, #{diffFee,jdbcType=REAL}, #{checkStateDesc,jdbcType=VARCHAR}, 
+      #{checkTime,jdbcType=TIMESTAMP}, #{adjustTime,jdbcType=TIMESTAMP}, #{adjustOperId,jdbcType=VARCHAR}, 
+      #{adjustDesc,jdbcType=VARCHAR}, #{createDeptId,jdbcType=VARCHAR}, #{createOperId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.x.smc.bill.dao.mapper.bo.StlBillItemData" >
+    insert into stl_bill_item_data
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="billItemId != null" >
+        BILL_ITEM_ID,
+      </if>
+      <if test="billId != null" >
+        BILL_ID,
+      </if>
+      <if test="tenantId != null" >
+        TENANT_ID,
+      </if>
+      <if test="itemType != null" >
+        ITEM_TYPE,
+      </if>
+      <if test="feeItemId != null" >
+        FEE_ITEM_ID,
+      </if>
+      <if test="totalFee != null" >
+        TOTAL_FEE,
+      </if>
+      <if test="checkState != null" >
+        CHECK_STATE,
+      </if>
+      <if test="diffFee != null" >
+        DIFF_FEE,
+      </if>
+      <if test="checkStateDesc != null" >
+        CHECK_STATE_DESC,
+      </if>
+      <if test="checkTime != null" >
+        CHECK_TIME,
+      </if>
+      <if test="adjustTime != null" >
+        ADJUST_TIME,
+      </if>
+      <if test="adjustOperId != null" >
+        ADJUST_OPER_ID,
+      </if>
+      <if test="adjustDesc != null" >
+        ADJUST_DESC,
+      </if>
+      <if test="createDeptId != null" >
+        CREATE_DEPT_ID,
+      </if>
+      <if test="createOperId != null" >
+        CREATE_OPER_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="billItemId != null" >
+        #{billItemId,jdbcType=BIGINT},
+      </if>
+      <if test="billId != null" >
+        #{billId,jdbcType=BIGINT},
+      </if>
+      <if test="tenantId != null" >
+        #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="itemType != null" >
+        #{itemType,jdbcType=VARCHAR},
+      </if>
+      <if test="feeItemId != null" >
+        #{feeItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null" >
+        #{totalFee,jdbcType=REAL},
+      </if>
+      <if test="checkState != null" >
+        #{checkState,jdbcType=VARCHAR},
+      </if>
+      <if test="diffFee != null" >
+        #{diffFee,jdbcType=REAL},
+      </if>
+      <if test="checkStateDesc != null" >
+        #{checkStateDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTime != null" >
+        #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adjustTime != null" >
+        #{adjustTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adjustOperId != null" >
+        #{adjustOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="adjustDesc != null" >
+        #{adjustDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="createDeptId != null" >
+        #{createDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="createOperId != null" >
+        #{createOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.x.smc.bill.dao.mapper.bo.StlBillItemDataCriteria" resultType="java.lang.Integer" >
+    select count(*) from stl_bill_item_data
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update stl_bill_item_data
+    <set >
+      <if test="record.billItemId != null" >
+        BILL_ITEM_ID = #{record.billItemId,jdbcType=BIGINT},
+      </if>
+      <if test="record.billId != null" >
+        BILL_ID = #{record.billId,jdbcType=BIGINT},
+      </if>
+      <if test="record.tenantId != null" >
+        TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemType != null" >
+        ITEM_TYPE = #{record.itemType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.feeItemId != null" >
+        FEE_ITEM_ID = #{record.feeItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalFee != null" >
+        TOTAL_FEE = #{record.totalFee,jdbcType=REAL},
+      </if>
+      <if test="record.checkState != null" >
+        CHECK_STATE = #{record.checkState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.diffFee != null" >
+        DIFF_FEE = #{record.diffFee,jdbcType=REAL},
+      </if>
+      <if test="record.checkStateDesc != null" >
+        CHECK_STATE_DESC = #{record.checkStateDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkTime != null" >
+        CHECK_TIME = #{record.checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.adjustTime != null" >
+        ADJUST_TIME = #{record.adjustTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.adjustOperId != null" >
+        ADJUST_OPER_ID = #{record.adjustOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adjustDesc != null" >
+        ADJUST_DESC = #{record.adjustDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDeptId != null" >
+        CREATE_DEPT_ID = #{record.createDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createOperId != null" >
+        CREATE_OPER_ID = #{record.createOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update stl_bill_item_data
+    set BILL_ITEM_ID = #{record.billItemId,jdbcType=BIGINT},
+      BILL_ID = #{record.billId,jdbcType=BIGINT},
+      TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      ITEM_TYPE = #{record.itemType,jdbcType=VARCHAR},
+      FEE_ITEM_ID = #{record.feeItemId,jdbcType=VARCHAR},
+      TOTAL_FEE = #{record.totalFee,jdbcType=REAL},
+      CHECK_STATE = #{record.checkState,jdbcType=VARCHAR},
+      DIFF_FEE = #{record.diffFee,jdbcType=REAL},
+      CHECK_STATE_DESC = #{record.checkStateDesc,jdbcType=VARCHAR},
+      CHECK_TIME = #{record.checkTime,jdbcType=TIMESTAMP},
+      ADJUST_TIME = #{record.adjustTime,jdbcType=TIMESTAMP},
+      ADJUST_OPER_ID = #{record.adjustOperId,jdbcType=VARCHAR},
+      ADJUST_DESC = #{record.adjustDesc,jdbcType=VARCHAR},
+      CREATE_DEPT_ID = #{record.createDeptId,jdbcType=VARCHAR},
+      CREATE_OPER_ID = #{record.createOperId,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.x.smc.bill.dao.mapper.bo.StlBillItemData" >
+    update stl_bill_item_data
+    <set >
+      <if test="billId != null" >
+        BILL_ID = #{billId,jdbcType=BIGINT},
+      </if>
+      <if test="tenantId != null" >
+        TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="itemType != null" >
+        ITEM_TYPE = #{itemType,jdbcType=VARCHAR},
+      </if>
+      <if test="feeItemId != null" >
+        FEE_ITEM_ID = #{feeItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null" >
+        TOTAL_FEE = #{totalFee,jdbcType=REAL},
+      </if>
+      <if test="checkState != null" >
+        CHECK_STATE = #{checkState,jdbcType=VARCHAR},
+      </if>
+      <if test="diffFee != null" >
+        DIFF_FEE = #{diffFee,jdbcType=REAL},
+      </if>
+      <if test="checkStateDesc != null" >
+        CHECK_STATE_DESC = #{checkStateDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTime != null" >
+        CHECK_TIME = #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adjustTime != null" >
+        ADJUST_TIME = #{adjustTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adjustOperId != null" >
+        ADJUST_OPER_ID = #{adjustOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="adjustDesc != null" >
+        ADJUST_DESC = #{adjustDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="createDeptId != null" >
+        CREATE_DEPT_ID = #{createDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="createOperId != null" >
+        CREATE_OPER_ID = #{createOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where BILL_ITEM_ID = #{billItemId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.x.smc.bill.dao.mapper.bo.StlBillItemData" >
+    update stl_bill_item_data
+    set BILL_ID = #{billId,jdbcType=BIGINT},
+      TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      ITEM_TYPE = #{itemType,jdbcType=VARCHAR},
+      FEE_ITEM_ID = #{feeItemId,jdbcType=VARCHAR},
+      TOTAL_FEE = #{totalFee,jdbcType=REAL},
+      CHECK_STATE = #{checkState,jdbcType=VARCHAR},
+      DIFF_FEE = #{diffFee,jdbcType=REAL},
+      CHECK_STATE_DESC = #{checkStateDesc,jdbcType=VARCHAR},
+      CHECK_TIME = #{checkTime,jdbcType=TIMESTAMP},
+      ADJUST_TIME = #{adjustTime,jdbcType=TIMESTAMP},
+      ADJUST_OPER_ID = #{adjustOperId,jdbcType=VARCHAR},
+      ADJUST_DESC = #{adjustDesc,jdbcType=VARCHAR},
+      CREATE_DEPT_ID = #{createDeptId,jdbcType=VARCHAR},
+      CREATE_OPER_ID = #{createOperId,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where BILL_ITEM_ID = #{billItemId,jdbcType=BIGINT}
+  </update>
+</mapper>

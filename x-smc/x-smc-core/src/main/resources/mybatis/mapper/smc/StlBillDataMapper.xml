@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.x.ic.smc.dao.mapper.interfaces.StlBillDataMapper" >
+  <resultMap id="BaseResultMap" type="com.x.ic.smc.dao.mapper.bo.StlBillData" >
+    <id column="BILL_ID" property="billId" jdbcType="BIGINT" />
+    <result column="BILL_FROM" property="billFrom" jdbcType="VARCHAR" />
+    <result column="BATCH_NO" property="batchNo" jdbcType="VARCHAR" />
+    <result column="TENANT_ID" property="tenantId" jdbcType="VARCHAR" />
+    <result column="POLICY_CODE" property="policyCode" jdbcType="VARCHAR" />
+    <result column="STL_OBJECT_ID" property="stlObjectId" jdbcType="VARCHAR" />
+    <result column="STL_ELEMENT_ID" property="stlElementId" jdbcType="BIGINT" />
+    <result column="STL_ELEMENT_SN" property="stlElementSn" jdbcType="VARCHAR" />
+    <result column="BILL_STYLE_SN" property="billStyleSn" jdbcType="VARCHAR" />
+    <result column="BILL_TIME_SN" property="billTimeSn" jdbcType="VARCHAR" />
+    <result column="BILL_START_TIME" property="billStartTime" jdbcType="TIMESTAMP" />
+    <result column="BILL_END_TIME" property="billEndTime" jdbcType="TIMESTAMP" />
+    <result column="ORIG_FEE" property="origFee" jdbcType="REAL" />
+    <result column="CHECK_STATE" property="checkState" jdbcType="VARCHAR" />
+    <result column="DIFF_FEE" property="diffFee" jdbcType="REAL" />
+    <result column="CHECK_STATE_DESC" property="checkStateDesc" jdbcType="VARCHAR" />
+    <result column="CHECK_TIME" property="checkTime" jdbcType="TIMESTAMP" />
+    <result column="ADJUST_FEE" property="adjustFee" jdbcType="REAL" />
+    <result column="FINAL_FEE" property="finalFee" jdbcType="REAL" />
+    <result column="ADJUST_TIME" property="adjustTime" jdbcType="TIMESTAMP" />
+    <result column="ADJUST_OPER_ID" property="adjustOperId" jdbcType="VARCHAR" />
+    <result column="ADJUST_DESC" property="adjustDesc" jdbcType="VARCHAR" />
+    <result column="EXTEND_STR" property="extendStr" jdbcType="VARCHAR" />
+    <result column="CREATE_DEPT_ID" property="createDeptId" jdbcType="VARCHAR" />
+    <result column="CREATE_OPER_ID" property="createOperId" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    BILL_ID, BILL_FROM, BATCH_NO, TENANT_ID, POLICY_CODE, STL_OBJECT_ID, STL_ELEMENT_ID, 
+    STL_ELEMENT_SN, BILL_STYLE_SN, BILL_TIME_SN, BILL_START_TIME, BILL_END_TIME, ORIG_FEE, 
+    CHECK_STATE, DIFF_FEE, CHECK_STATE_DESC, CHECK_TIME, ADJUST_FEE, FINAL_FEE, ADJUST_TIME, 
+    ADJUST_OPER_ID, ADJUST_DESC, EXTEND_STR, CREATE_DEPT_ID, CREATE_OPER_ID, CREATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.x.ic.smc.dao.mapper.bo.StlBillDataCriteria"  >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from stl_bill_data_${yyyyMm}
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long"  >
+    select 
+    <include refid="Base_Column_List" />
+    from stl_bill_data_${yyyyMm}
+    where BILL_ID = #{billId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="Long"  >
+    delete from stl_bill_data_${yyyyMm}
+    where BILL_ID = #{billId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.x.ic.smc.dao.mapper.bo.StlBillDataCriteria"  >
+    delete from stl_bill_data_${yyyyMm}
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.x.ic.smc.dao.mapper.bo.StlBillData"  >
+    insert into stl_bill_data_${yyyyMm} (BILL_ID, BILL_FROM, BATCH_NO, 
+      TENANT_ID, POLICY_CODE, STL_OBJECT_ID, 
+      STL_ELEMENT_ID, STL_ELEMENT_SN, BILL_STYLE_SN, 
+      BILL_TIME_SN, BILL_START_TIME, BILL_END_TIME, 
+      ORIG_FEE, CHECK_STATE, DIFF_FEE, 
+      CHECK_STATE_DESC, CHECK_TIME, ADJUST_FEE, 
+      FINAL_FEE, ADJUST_TIME, ADJUST_OPER_ID, 
+      ADJUST_DESC, EXTEND_STR, CREATE_DEPT_ID, 
+      CREATE_OPER_ID, CREATE_TIME)
+    values (#{billId,jdbcType=BIGINT}, #{billFrom,jdbcType=VARCHAR}, #{batchNo,jdbcType=VARCHAR}, 
+      #{tenantId,jdbcType=VARCHAR}, #{policyCode,jdbcType=VARCHAR}, #{stlObjectId,jdbcType=VARCHAR}, 
+      #{stlElementId,jdbcType=BIGINT}, #{stlElementSn,jdbcType=VARCHAR}, #{billStyleSn,jdbcType=VARCHAR}, 
+      #{billTimeSn,jdbcType=VARCHAR}, #{billStartTime,jdbcType=TIMESTAMP}, #{billEndTime,jdbcType=TIMESTAMP}, 
+      #{origFee,jdbcType=REAL}, #{checkState,jdbcType=VARCHAR}, #{diffFee,jdbcType=REAL}, 
+      #{checkStateDesc,jdbcType=VARCHAR}, #{checkTime,jdbcType=TIMESTAMP}, #{adjustFee,jdbcType=REAL}, 
+      #{finalFee,jdbcType=REAL}, #{adjustTime,jdbcType=TIMESTAMP}, #{adjustOperId,jdbcType=VARCHAR}, 
+      #{adjustDesc,jdbcType=VARCHAR}, #{extendStr,jdbcType=VARCHAR}, #{createDeptId,jdbcType=VARCHAR}, 
+      #{createOperId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.x.ic.smc.dao.mapper.bo.StlBillData" >
+    insert into stl_bill_data_${yyyyMm}
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="billId != null" >
+        BILL_ID,
+      </if>
+      <if test="billFrom != null" >
+        BILL_FROM,
+      </if>
+      <if test="batchNo != null" >
+        BATCH_NO,
+      </if>
+      <if test="tenantId != null" >
+        TENANT_ID,
+      </if>
+      <if test="policyCode != null" >
+        POLICY_CODE,
+      </if>
+      <if test="stlObjectId != null" >
+        STL_OBJECT_ID,
+      </if>
+      <if test="stlElementId != null" >
+        STL_ELEMENT_ID,
+      </if>
+      <if test="stlElementSn != null" >
+        STL_ELEMENT_SN,
+      </if>
+      <if test="billStyleSn != null" >
+        BILL_STYLE_SN,
+      </if>
+      <if test="billTimeSn != null" >
+        BILL_TIME_SN,
+      </if>
+      <if test="billStartTime != null" >
+        BILL_START_TIME,
+      </if>
+      <if test="billEndTime != null" >
+        BILL_END_TIME,
+      </if>
+      <if test="origFee != null" >
+        ORIG_FEE,
+      </if>
+      <if test="checkState != null" >
+        CHECK_STATE,
+      </if>
+      <if test="diffFee != null" >
+        DIFF_FEE,
+      </if>
+      <if test="checkStateDesc != null" >
+        CHECK_STATE_DESC,
+      </if>
+      <if test="checkTime != null" >
+        CHECK_TIME,
+      </if>
+      <if test="adjustFee != null" >
+        ADJUST_FEE,
+      </if>
+      <if test="finalFee != null" >
+        FINAL_FEE,
+      </if>
+      <if test="adjustTime != null" >
+        ADJUST_TIME,
+      </if>
+      <if test="adjustOperId != null" >
+        ADJUST_OPER_ID,
+      </if>
+      <if test="adjustDesc != null" >
+        ADJUST_DESC,
+      </if>
+      <if test="extendStr != null" >
+        EXTEND_STR,
+      </if>
+      <if test="createDeptId != null" >
+        CREATE_DEPT_ID,
+      </if>
+      <if test="createOperId != null" >
+        CREATE_OPER_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="billId != null" >
+        #{billId,jdbcType=BIGINT},
+      </if>
+      <if test="billFrom != null" >
+        #{billFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNo != null" >
+        #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tenantId != null" >
+        #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="policyCode != null" >
+        #{policyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stlObjectId != null" >
+        #{stlObjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="stlElementId != null" >
+        #{stlElementId,jdbcType=BIGINT},
+      </if>
+      <if test="stlElementSn != null" >
+        #{stlElementSn,jdbcType=VARCHAR},
+      </if>
+      <if test="billStyleSn != null" >
+        #{billStyleSn,jdbcType=VARCHAR},
+      </if>
+      <if test="billTimeSn != null" >
+        #{billTimeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="billStartTime != null" >
+        #{billStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="billEndTime != null" >
+        #{billEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="origFee != null" >
+        #{origFee,jdbcType=REAL},
+      </if>
+      <if test="checkState != null" >
+        #{checkState,jdbcType=VARCHAR},
+      </if>
+      <if test="diffFee != null" >
+        #{diffFee,jdbcType=REAL},
+      </if>
+      <if test="checkStateDesc != null" >
+        #{checkStateDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTime != null" >
+        #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adjustFee != null" >
+        #{adjustFee,jdbcType=REAL},
+      </if>
+      <if test="finalFee != null" >
+        #{finalFee,jdbcType=REAL},
+      </if>
+      <if test="adjustTime != null" >
+        #{adjustTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adjustOperId != null" >
+        #{adjustOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="adjustDesc != null" >
+        #{adjustDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="extendStr != null" >
+        #{extendStr,jdbcType=VARCHAR},
+      </if>
+      <if test="createDeptId != null" >
+        #{createDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="createOperId != null" >
+        #{createOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.x.ic.smc.dao.mapper.bo.StlBillDataCriteria" resultType="java.lang.Integer" >
+    select count(*) from stl_bill_data_${yyyyMm}
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update stl_bill_data_${yyyyMm}
+    <set >
+      <if test="record.billId != null" >
+        BILL_ID = #{record.billId,jdbcType=BIGINT},
+      </if>
+      <if test="record.billFrom != null" >
+        BILL_FROM = #{record.billFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="record.batchNo != null" >
+        BATCH_NO = #{record.batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tenantId != null" >
+        TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.policyCode != null" >
+        POLICY_CODE = #{record.policyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stlObjectId != null" >
+        STL_OBJECT_ID = #{record.stlObjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stlElementId != null" >
+        STL_ELEMENT_ID = #{record.stlElementId,jdbcType=BIGINT},
+      </if>
+      <if test="record.stlElementSn != null" >
+        STL_ELEMENT_SN = #{record.stlElementSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.billStyleSn != null" >
+        BILL_STYLE_SN = #{record.billStyleSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.billTimeSn != null" >
+        BILL_TIME_SN = #{record.billTimeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.billStartTime != null" >
+        BILL_START_TIME = #{record.billStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.billEndTime != null" >
+        BILL_END_TIME = #{record.billEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.origFee != null" >
+        ORIG_FEE = #{record.origFee,jdbcType=REAL},
+      </if>
+      <if test="record.checkState != null" >
+        CHECK_STATE = #{record.checkState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.diffFee != null" >
+        DIFF_FEE = #{record.diffFee,jdbcType=REAL},
+      </if>
+      <if test="record.checkStateDesc != null" >
+        CHECK_STATE_DESC = #{record.checkStateDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkTime != null" >
+        CHECK_TIME = #{record.checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.adjustFee != null" >
+        ADJUST_FEE = #{record.adjustFee,jdbcType=REAL},
+      </if>
+      <if test="record.finalFee != null" >
+        FINAL_FEE = #{record.finalFee,jdbcType=REAL},
+      </if>
+      <if test="record.adjustTime != null" >
+        ADJUST_TIME = #{record.adjustTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.adjustOperId != null" >
+        ADJUST_OPER_ID = #{record.adjustOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adjustDesc != null" >
+        ADJUST_DESC = #{record.adjustDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.extendStr != null" >
+        EXTEND_STR = #{record.extendStr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDeptId != null" >
+        CREATE_DEPT_ID = #{record.createDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createOperId != null" >
+        CREATE_OPER_ID = #{record.createOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update stl_bill_data_${yyyyMm}
+    set BILL_ID = #{record.billId,jdbcType=BIGINT},
+      BILL_FROM = #{record.billFrom,jdbcType=VARCHAR},
+      BATCH_NO = #{record.batchNo,jdbcType=VARCHAR},
+      TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      POLICY_CODE = #{record.policyCode,jdbcType=VARCHAR},
+      STL_OBJECT_ID = #{record.stlObjectId,jdbcType=VARCHAR},
+      STL_ELEMENT_ID = #{record.stlElementId,jdbcType=BIGINT},
+      STL_ELEMENT_SN = #{record.stlElementSn,jdbcType=VARCHAR},
+      BILL_STYLE_SN = #{record.billStyleSn,jdbcType=VARCHAR},
+      BILL_TIME_SN = #{record.billTimeSn,jdbcType=VARCHAR},
+      BILL_START_TIME = #{record.billStartTime,jdbcType=TIMESTAMP},
+      BILL_END_TIME = #{record.billEndTime,jdbcType=TIMESTAMP},
+      ORIG_FEE = #{record.origFee,jdbcType=REAL},
+      CHECK_STATE = #{record.checkState,jdbcType=VARCHAR},
+      DIFF_FEE = #{record.diffFee,jdbcType=REAL},
+      CHECK_STATE_DESC = #{record.checkStateDesc,jdbcType=VARCHAR},
+      CHECK_TIME = #{record.checkTime,jdbcType=TIMESTAMP},
+      ADJUST_FEE = #{record.adjustFee,jdbcType=REAL},
+      FINAL_FEE = #{record.finalFee,jdbcType=REAL},
+      ADJUST_TIME = #{record.adjustTime,jdbcType=TIMESTAMP},
+      ADJUST_OPER_ID = #{record.adjustOperId,jdbcType=VARCHAR},
+      ADJUST_DESC = #{record.adjustDesc,jdbcType=VARCHAR},
+      EXTEND_STR = #{record.extendStr,jdbcType=VARCHAR},
+      CREATE_DEPT_ID = #{record.createDeptId,jdbcType=VARCHAR},
+      CREATE_OPER_ID = #{record.createOperId,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.x.ic.smc.dao.mapper.bo.StlBillData" >
+    update stl_bill_data_${yyyyMm}
+    <set >
+      <if test="billFrom != null" >
+        BILL_FROM = #{billFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNo != null" >
+        BATCH_NO = #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="tenantId != null" >
+        TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="policyCode != null" >
+        POLICY_CODE = #{policyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="stlObjectId != null" >
+        STL_OBJECT_ID = #{stlObjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="stlElementId != null" >
+        STL_ELEMENT_ID = #{stlElementId,jdbcType=BIGINT},
+      </if>
+      <if test="stlElementSn != null" >
+        STL_ELEMENT_SN = #{stlElementSn,jdbcType=VARCHAR},
+      </if>
+      <if test="billStyleSn != null" >
+        BILL_STYLE_SN = #{billStyleSn,jdbcType=VARCHAR},
+      </if>
+      <if test="billTimeSn != null" >
+        BILL_TIME_SN = #{billTimeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="billStartTime != null" >
+        BILL_START_TIME = #{billStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="billEndTime != null" >
+        BILL_END_TIME = #{billEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="origFee != null" >
+        ORIG_FEE = #{origFee,jdbcType=REAL},
+      </if>
+      <if test="checkState != null" >
+        CHECK_STATE = #{checkState,jdbcType=VARCHAR},
+      </if>
+      <if test="diffFee != null" >
+        DIFF_FEE = #{diffFee,jdbcType=REAL},
+      </if>
+      <if test="checkStateDesc != null" >
+        CHECK_STATE_DESC = #{checkStateDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTime != null" >
+        CHECK_TIME = #{checkTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adjustFee != null" >
+        ADJUST_FEE = #{adjustFee,jdbcType=REAL},
+      </if>
+      <if test="finalFee != null" >
+        FINAL_FEE = #{finalFee,jdbcType=REAL},
+      </if>
+      <if test="adjustTime != null" >
+        ADJUST_TIME = #{adjustTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adjustOperId != null" >
+        ADJUST_OPER_ID = #{adjustOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="adjustDesc != null" >
+        ADJUST_DESC = #{adjustDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="extendStr != null" >
+        EXTEND_STR = #{extendStr,jdbcType=VARCHAR},
+      </if>
+      <if test="createDeptId != null" >
+        CREATE_DEPT_ID = #{createDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="createOperId != null" >
+        CREATE_OPER_ID = #{createOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where BILL_ID = #{billId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.x.ic.smc.dao.mapper.bo.StlBillData" >
+    update stl_bill_data_${yyyyMm}
+    set BILL_FROM = #{billFrom,jdbcType=VARCHAR},
+      BATCH_NO = #{batchNo,jdbcType=VARCHAR},
+      TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      POLICY_CODE = #{policyCode,jdbcType=VARCHAR},
+      STL_OBJECT_ID = #{stlObjectId,jdbcType=VARCHAR},
+      STL_ELEMENT_ID = #{stlElementId,jdbcType=BIGINT},
+      STL_ELEMENT_SN = #{stlElementSn,jdbcType=VARCHAR},
+      BILL_STYLE_SN = #{billStyleSn,jdbcType=VARCHAR},
+      BILL_TIME_SN = #{billTimeSn,jdbcType=VARCHAR},
+      BILL_START_TIME = #{billStartTime,jdbcType=TIMESTAMP},
+      BILL_END_TIME = #{billEndTime,jdbcType=TIMESTAMP},
+      ORIG_FEE = #{origFee,jdbcType=REAL},
+      CHECK_STATE = #{checkState,jdbcType=VARCHAR},
+      DIFF_FEE = #{diffFee,jdbcType=REAL},
+      CHECK_STATE_DESC = #{checkStateDesc,jdbcType=VARCHAR},
+      CHECK_TIME = #{checkTime,jdbcType=TIMESTAMP},
+      ADJUST_FEE = #{adjustFee,jdbcType=REAL},
+      FINAL_FEE = #{finalFee,jdbcType=REAL},
+      ADJUST_TIME = #{adjustTime,jdbcType=TIMESTAMP},
+      ADJUST_OPER_ID = #{adjustOperId,jdbcType=VARCHAR},
+      ADJUST_DESC = #{adjustDesc,jdbcType=VARCHAR},
+      EXTEND_STR = #{extendStr,jdbcType=VARCHAR},
+      CREATE_DEPT_ID = #{createDeptId,jdbcType=VARCHAR},
+      CREATE_OPER_ID = #{createOperId,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where BILL_ID = #{billId,jdbcType=BIGINT}
+  </update>
+</mapper>

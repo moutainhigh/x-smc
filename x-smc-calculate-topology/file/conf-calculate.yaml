@@ -1,0 +1,36 @@
+topology.name: "SmcCalculateFlow"
+topology.workers: 2
+#topology.max.spout.pending: 2
+
+
+storm.cluster.mode: local
+
+jdbc.default: "{\"jdbc.driver\":\"com.mysql.jdbc.Driver\",\"jdbc.url\":\"jdbc:mysql://172.16.8.28:3306/dvpstldb?useUnicode: true&characterEncoding: UTF-8\",\"jdbc.username\":\"devstldbuser\",\"jdbc.password\":\"OTPstl~!@#1\"}"
+
+
+hbase.param: "{\"hbase.zookeeper.quorum\":\"172.16.8.27:39181\"}"
+
+#ccs.appname: baas-smc
+#ccs.zk_address: 10.1.130.84:39181
+redis.maxTotal: "1024"
+redis.maxIdle: "200"
+redis.numTestsPerEvictionRun: "1024"
+redis.timeBetweenEvictionRunsMillis: "30000"
+redis.minEvictableIdleTimeMillis: "-1"
+redis.softMinEvictableIdleTimeMillis: "10000"
+redis.maxWaitMillis: "1300"
+redis.testOnBorrow: "true"
+redis.testWhileIdle: "true"
+redis.testOnReturn: "true"
+redis.password: "zcbd@123*M"
+redis.blockWhenExhausted: "false"
+#redis的工作模式 sentinel|standalone
+redis.worktype: "standalone"
+redis.sentinel.masterName: "mymaster"
+redis.sentinel.sentinels: "172.16.8.28:6389"
+redis.standalone.server: "172.16.8.28:6389"
+
+smc.calculate.executor.num: "1"
+smc.calculate.export.local.temp: "export"
+smc.calculate.export.csv.line.max: "50000"
+

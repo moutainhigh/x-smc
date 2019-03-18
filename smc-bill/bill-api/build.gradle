@@ -1,0 +1,121 @@
+
+// Doc Generator
+configurations {
+    jaxDoclet
+}
+dependencies {
+    jaxDoclet 'com.bonc.runner.plugin:apicollector:1.0.0-SNAPSHOT' 
+}
+
+buildscript {
+    repositories {
+        maven { url mavenPublicURL }
+    }
+   dependencies {
+        classpath group: 'com.bonc.runner.plugin', name: 'apicollectorplugin', version: '1.0.0-SNAPSHOT'
+        classpath group: 'com.bonc.runner.plugin', name: 'apijarprocessplugin', version: '1.0.0-SNAPSHOT'
+    }
+}
+
+//遍历目录，给各个参数赋值
+def List<Map<String,String>> apiList = new ArrayList<Map<String,String>>();
+Set<File> fileSet = fileTree(apiDir) { include '**/*.ini' }.getFiles();
+for(File file:fileSet){
+    File f1 = new File(file.getParent());
+    String apiName =  f1.getName();
+    String version = file.getText('UTF-8');
+
+    Map<String,String> apiMap = new HashMap<String,String>();
+    apiMap.put("apiName", apiName);
+    apiMap.put("apiArtifactId", apiName);
+    apiMap.put("apiTaskName", "A"+apiName);
+    apiMap.put("apiVersion", version);
+    apiList.add(apiMap);
+}
+
+def Map<String,Object> apiDocTaskMap = new HashMap<String,Object>();
+//便利数据，为后收集数据做准备
+def Map<String,Object> apiTaskMap = new HashMap<String,Object>();
+for(Map<String,String> apiMap:apiList){
+    String apiName = apiMap.get("apiName");
+    String apiVersion = apiMap.get("apiVersion");
+    String apiArtifactId = apiMap.get("apiArtifactId");
+    String apiTaskName = apiMap.get("apiTaskName");
+    def jarTask = task("${apiTaskName}Jar", type: Jar){
+        version apiVersion
+        baseName apiArtifactId
+        from sourceSets.main.output
+        destinationDir file("$buildDir/api-libs")
+        include 'com/x/smc/bill/api/'+apiName+'/**'
+        manifest {
+            attributes 'artifactId': apiArtifactId, 'Built-By': builtBy,'Built-date': new Date().format('yyyy-MM-dd HH:mm:ss'),'Manifest-Version':apiVersion
+        }
+    }
+    apiTaskMap.put(apiName, jarTask);
+	//调用APICollectorTask，开始收集数据
+    def apidocTask=task("${apiArtifactId}APIDoc",type:com.bonc.runner.gradle.plugin.APICollectorTask){
+    	
+        esconfig = "{\"clusterName\":\"elasticsearch\",\"ip\":\"172.16.13.36\", \"port\":9300}"
+        source = fileTree(dir: 'src/main/java', include: 'com/x/smc/bill/api/'+apiName+'/**/*.java')
+        docletpath = configurations.jaxDoclet.files.asType(List)
+        //指定-doclet 的生成你格式
+        docletClass = 'com.bonc.runner.apicollector.doclet.APIDoclet'
+        memberLevel = 'private'
+        encoding = 'utf-8'
+        belong='bonc'
+        ownerType='dst'
+        owner = 'dst'
+        groupId = 'com.x.smc.bill'
+        artifactId = apiArtifactId
+        version = apiVersion
+    }
+    apiDocTaskMap.put(apiName, apidocTask);
+
+}
+
+task api2doc{
+	dependsOn {
+	   tasks.findAll { task -> task.name.endsWith('APIDoc') }
+	}
+}
+
+publishing {
+    publications {
+        for(Map<String,String> apiMap:apiList){
+            String apiName = apiMap.get("apiName");
+            String apiVersion = apiMap.get("apiVersion");
+            String apiArtifactId = apiMap.get("apiArtifactId");
+            publishing.publications.create(apiName, MavenPublication) {
+                groupId group
+                artifactId apiArtifactId
+                version apiVersion
+                artifact  apiTaskMap.get(apiName)
+                pom.withXml {
+                    asNode().children().last() + {
+                        delegate.dependencies {
+                            delegate.dependency {
+                                delegate.groupId("com.x")
+                                delegate.artifactId("base")
+                                delegate.version(dvpBaseVersion)
+                            }
+                            delegate.dependency {
+                                delegate.groupId("org.jboss.resteasy")
+                                delegate.artifactId("resteasy-jaxrs")
+                                delegate.version("3.0.11.Final")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            url  publishURL
+            credentials {
+                username = publishUserName
+                password = publishUserPassword
+            }
+        }
+    }
+}

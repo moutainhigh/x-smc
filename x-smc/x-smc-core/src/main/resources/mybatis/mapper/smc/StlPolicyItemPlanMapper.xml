@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.x.ic.smc.dao.mapper.interfaces.StlPolicyItemPlanMapper" >
+  <resultMap id="BaseResultMap" type="com.x.ic.smc.dao.mapper.bo.StlPolicyItemPlan" >
+    <id column="PLAN_ID" property="planId" jdbcType="BIGINT" />
+    <result column="TENANT_ID" property="tenantId" jdbcType="VARCHAR" />
+    <result column="ITEM_ID" property="itemId" jdbcType="BIGINT" />
+    <result column="POLICY_ID" property="policyId" jdbcType="BIGINT" />
+    <result column="OBJECT_ID" property="objectId" jdbcType="VARCHAR" />
+    <result column="ELEMENT_ID" property="elementId" jdbcType="BIGINT" />
+    <result column="FEE_ITEM" property="feeItem" jdbcType="VARCHAR" />
+    <result column="PLAN_TYPE" property="planType" jdbcType="VARCHAR" />
+    <result column="CAL_TYPE" property="calType" jdbcType="VARCHAR" />
+    <result column="CAL_VALUE" property="calValue" jdbcType="VARCHAR" />
+    <result column="UPDATE_DEPT_ID" property="updateDeptId" jdbcType="VARCHAR" />
+    <result column="UPDATE_OPER_ID" property="updateOperId" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    PLAN_ID, TENANT_ID, ITEM_ID, POLICY_ID, OBJECT_ID, ELEMENT_ID, FEE_ITEM, PLAN_TYPE, 
+    CAL_TYPE, CAL_VALUE, UPDATE_DEPT_ID, UPDATE_OPER_ID, UPDATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.x.ic.smc.dao.mapper.bo.StlPolicyItemPlanCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from stl_policy_item_plan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from stl_policy_item_plan
+    where PLAN_ID = #{planId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="Long" >
+    delete from stl_policy_item_plan
+    where PLAN_ID = #{planId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.x.ic.smc.dao.mapper.bo.StlPolicyItemPlanCriteria" >
+    delete from stl_policy_item_plan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.x.ic.smc.dao.mapper.bo.StlPolicyItemPlan" >
+    insert into stl_policy_item_plan (PLAN_ID, TENANT_ID, ITEM_ID, 
+      POLICY_ID, OBJECT_ID, ELEMENT_ID, 
+      FEE_ITEM, PLAN_TYPE, CAL_TYPE, 
+      CAL_VALUE, UPDATE_DEPT_ID, UPDATE_OPER_ID, 
+      UPDATE_TIME)
+    values (#{planId,jdbcType=BIGINT}, #{tenantId,jdbcType=VARCHAR}, #{itemId,jdbcType=BIGINT}, 
+      #{policyId,jdbcType=BIGINT}, #{objectId,jdbcType=VARCHAR}, #{elementId,jdbcType=BIGINT}, 
+      #{feeItem,jdbcType=VARCHAR}, #{planType,jdbcType=VARCHAR}, #{calType,jdbcType=VARCHAR}, 
+      #{calValue,jdbcType=VARCHAR}, #{updateDeptId,jdbcType=VARCHAR}, #{updateOperId,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.x.ic.smc.dao.mapper.bo.StlPolicyItemPlan" >
+    insert into stl_policy_item_plan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="planId != null" >
+        PLAN_ID,
+      </if>
+      <if test="tenantId != null" >
+        TENANT_ID,
+      </if>
+      <if test="itemId != null" >
+        ITEM_ID,
+      </if>
+      <if test="policyId != null" >
+        POLICY_ID,
+      </if>
+      <if test="objectId != null" >
+        OBJECT_ID,
+      </if>
+      <if test="elementId != null" >
+        ELEMENT_ID,
+      </if>
+      <if test="feeItem != null" >
+        FEE_ITEM,
+      </if>
+      <if test="planType != null" >
+        PLAN_TYPE,
+      </if>
+      <if test="calType != null" >
+        CAL_TYPE,
+      </if>
+      <if test="calValue != null" >
+        CAL_VALUE,
+      </if>
+      <if test="updateDeptId != null" >
+        UPDATE_DEPT_ID,
+      </if>
+      <if test="updateOperId != null" >
+        UPDATE_OPER_ID,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="planId != null" >
+        #{planId,jdbcType=BIGINT},
+      </if>
+      <if test="tenantId != null" >
+        #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null" >
+        #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="policyId != null" >
+        #{policyId,jdbcType=BIGINT},
+      </if>
+      <if test="objectId != null" >
+        #{objectId,jdbcType=VARCHAR},
+      </if>
+      <if test="elementId != null" >
+        #{elementId,jdbcType=BIGINT},
+      </if>
+      <if test="feeItem != null" >
+        #{feeItem,jdbcType=VARCHAR},
+      </if>
+      <if test="planType != null" >
+        #{planType,jdbcType=VARCHAR},
+      </if>
+      <if test="calType != null" >
+        #{calType,jdbcType=VARCHAR},
+      </if>
+      <if test="calValue != null" >
+        #{calValue,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDeptId != null" >
+        #{updateDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateOperId != null" >
+        #{updateOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.x.ic.smc.dao.mapper.bo.StlPolicyItemPlanCriteria" resultType="java.lang.Integer" >
+    select count(*) from stl_policy_item_plan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update stl_policy_item_plan
+    <set >
+      <if test="record.planId != null" >
+        PLAN_ID = #{record.planId,jdbcType=BIGINT},
+      </if>
+      <if test="record.tenantId != null" >
+        TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemId != null" >
+        ITEM_ID = #{record.itemId,jdbcType=BIGINT},
+      </if>
+      <if test="record.policyId != null" >
+        POLICY_ID = #{record.policyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.objectId != null" >
+        OBJECT_ID = #{record.objectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.elementId != null" >
+        ELEMENT_ID = #{record.elementId,jdbcType=BIGINT},
+      </if>
+      <if test="record.feeItem != null" >
+        FEE_ITEM = #{record.feeItem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.planType != null" >
+        PLAN_TYPE = #{record.planType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.calType != null" >
+        CAL_TYPE = #{record.calType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.calValue != null" >
+        CAL_VALUE = #{record.calValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDeptId != null" >
+        UPDATE_DEPT_ID = #{record.updateDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateOperId != null" >
+        UPDATE_OPER_ID = #{record.updateOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update stl_policy_item_plan
+    set PLAN_ID = #{record.planId,jdbcType=BIGINT},
+      TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      ITEM_ID = #{record.itemId,jdbcType=BIGINT},
+      POLICY_ID = #{record.policyId,jdbcType=BIGINT},
+      OBJECT_ID = #{record.objectId,jdbcType=VARCHAR},
+      ELEMENT_ID = #{record.elementId,jdbcType=BIGINT},
+      FEE_ITEM = #{record.feeItem,jdbcType=VARCHAR},
+      PLAN_TYPE = #{record.planType,jdbcType=VARCHAR},
+      CAL_TYPE = #{record.calType,jdbcType=VARCHAR},
+      CAL_VALUE = #{record.calValue,jdbcType=VARCHAR},
+      UPDATE_DEPT_ID = #{record.updateDeptId,jdbcType=VARCHAR},
+      UPDATE_OPER_ID = #{record.updateOperId,jdbcType=VARCHAR},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.x.ic.smc.dao.mapper.bo.StlPolicyItemPlan" >
+    update stl_policy_item_plan
+    <set >
+      <if test="tenantId != null" >
+        TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null" >
+        ITEM_ID = #{itemId,jdbcType=BIGINT},
+      </if>
+      <if test="policyId != null" >
+        POLICY_ID = #{policyId,jdbcType=BIGINT},
+      </if>
+      <if test="objectId != null" >
+        OBJECT_ID = #{objectId,jdbcType=VARCHAR},
+      </if>
+      <if test="elementId != null" >
+        ELEMENT_ID = #{elementId,jdbcType=BIGINT},
+      </if>
+      <if test="feeItem != null" >
+        FEE_ITEM = #{feeItem,jdbcType=VARCHAR},
+      </if>
+      <if test="planType != null" >
+        PLAN_TYPE = #{planType,jdbcType=VARCHAR},
+      </if>
+      <if test="calType != null" >
+        CAL_TYPE = #{calType,jdbcType=VARCHAR},
+      </if>
+      <if test="calValue != null" >
+        CAL_VALUE = #{calValue,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDeptId != null" >
+        UPDATE_DEPT_ID = #{updateDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateOperId != null" >
+        UPDATE_OPER_ID = #{updateOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where PLAN_ID = #{planId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.x.ic.smc.dao.mapper.bo.StlPolicyItemPlan" >
+    update stl_policy_item_plan
+    set TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      ITEM_ID = #{itemId,jdbcType=BIGINT},
+      POLICY_ID = #{policyId,jdbcType=BIGINT},
+      OBJECT_ID = #{objectId,jdbcType=VARCHAR},
+      ELEMENT_ID = #{elementId,jdbcType=BIGINT},
+      FEE_ITEM = #{feeItem,jdbcType=VARCHAR},
+      PLAN_TYPE = #{planType,jdbcType=VARCHAR},
+      CAL_TYPE = #{calType,jdbcType=VARCHAR},
+      CAL_VALUE = #{calValue,jdbcType=VARCHAR},
+      UPDATE_DEPT_ID = #{updateDeptId,jdbcType=VARCHAR},
+      UPDATE_OPER_ID = #{updateOperId,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where PLAN_ID = #{planId,jdbcType=BIGINT}
+  </update>
+</mapper>

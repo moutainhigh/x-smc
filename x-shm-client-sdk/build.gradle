@@ -1,0 +1,106 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+
+group 'com.x'
+version '1.0-SNAPSHOT'
+sourceCompatibility = 1.8
+compileJava.dependsOn clean
+publish.dependsOn build
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+configurations.all {
+        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    	resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
+    }
+
+ext{
+	groupName = "com.x.dshmsdk"
+	moduleName="x-dshm-sdk";	
+	moduleVersion="1.0-SNAPSHOT"
+    publishUserName = "admin"
+    publishUserPassword = "admin123"
+    publishURL="http://172.16.13.164:8081/nexus/content/repositories/snapshots/"
+    builtBy="gradle 4.0.1"
+    
+    runnerBaseVersion="1.0-SNAPSHOT"
+
+}
+
+repositories {
+    maven { url "http://172.16.13.164:8081/nexus/content/groups/public/" }
+}
+
+dependencies{  
+	compile "org.springframework:spring-core:4.1.6.RELEASE"
+	compile "org.springframework:spring-context:4.1.6.RELEASE"
+	compile "org.springframework:spring-tx:4.1.6.RELEASE"
+	compile "org.apache.commons:commons-dbcp2:2.1"
+	compile 'javax.servlet:javax.servlet-api:3.1.0'
+	compile 'javax.validation:validation-api:1.1.0.Final'
+	//compile 'com.ai.opt.sdk:opt-sdk:2.1-SNAPSHOT'
+    compile ('com.x:sdk:1.0.1-SNAPSHOT') {
+        exclude group: 'org.dom4j', module: 'dom4j'
+    }
+}
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs '$buildDir/repos'
+       }
+    }
+}
+
+jar {
+    baseName moduleName
+    include "com/x/dshm/client/*/**"
+    version version
+	manifest {
+        attributes 'packageName': baseName, 'Built-By': builtBy,'create-date': new Date().format('yyyy-MM-dd HH:mm:ss'), 'Manifest-Version': version
+    }
+}
+task copyChildConfig(type: Copy) { 
+        from fileTree(
+                dir: 'src/main/resources',
+                include: {
+                    'dubbo/registry/**'
+                    '**.xml'
+                    '**.properties'
+                }
+        )
+        
+        destinationDir file("$buildDir/all-config") 
+}
+
+task copy3rdJars(type: Copy) { 
+        from configurations.runtime
+        exclude "*x-*.*"
+        destinationDir file("$buildDir/3rd-libs") 
+}
+
+task cleanTempDir(type: Delete){
+	delete fileTree(dir: "$buildDir/libs")
+}
+
+
+build.dependsOn copy3rdJars, copyChildConfig
+publishing {
+    publications {
+        publishing.publications.create("${moduleName}", MavenPublication) {
+            groupId group
+            artifactId moduleName
+            version version
+            artifact jar           
+        }
+    }
+        repositories {
+        maven {
+            url  publishURL
+            credentials {
+                username = publishUserName 
+                password = publishUserPassword
+            }
+        }
+    }
+}

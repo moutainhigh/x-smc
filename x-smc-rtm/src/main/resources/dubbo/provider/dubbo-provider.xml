@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:dubbo="http://code.alibabatech.com/schema/dubbo" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://code.alibabatech.com/schema/dubbo    
+           http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+	
+	<!-- 相关配置 -->
+	<bean id="dubboConfig"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="order" value="1" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+<!-- 		<property name="locations" value="classpath:dubbo/dubbo.properties" /> -->
+	</bean>
+	<!-- 应用名称 -->
+	<dubbo:application name="${dubbo.appname}" />
+	<!-- 注册协议 -->
+	<dubbo:registry protocol="${dubbo.registry.protocol}"
+		address="${dubbo.registry.address}" file="${dubbo.registry.file}" />
+	<!-- 协议名称及端口号 -->
+	<dubbo:protocol name="${rtm.dubbo.protocol}" port="${rtm.dubbo.protocol.port}"/>
+	<dubbo:protocol name="${rtm.rest.protocol}" port="${rtm.rest.protocol.port}"
+		server="${dubbo.protocol.server}"
+		contextpath="${dubbo.protocol.contextpath}"
+		threads="800"/>
+	<!-- 提供者超时时间设置 -->
+	<dubbo:provider timeout="${dubbo.provider.timeout}" retries="1"/>
+	<!-- 注解方式 -->
+	<dubbo:annotation package="com.x.order.api" />
+	<!-- 引入其它xml文件 -->
+	<import resource="../../context/core-context.xml" />
+	<import resource="../../context/elasticjob-context.xml" />
+</beans>

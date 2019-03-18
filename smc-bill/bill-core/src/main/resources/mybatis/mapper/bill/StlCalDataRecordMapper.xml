@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.x.smc.bill.dao.mapper.interfaces.StlCalDataRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.x.smc.bill.dao.mapper.bo.StlCalDataRecord" >
+    <id column="RECORD_ID" property="recordId" jdbcType="BIGINT" />
+    <result column="TENANT_ID" property="tenantId" jdbcType="VARCHAR" />
+    <result column="DATA_TYPE" property="dataType" jdbcType="VARCHAR" />
+    <result column="POLICY_ID" property="policyId" jdbcType="VARCHAR" />
+    <result column="OBJECT_ID" property="objectId" jdbcType="VARCHAR" />
+    <result column="BILL_TIME_SN" property="billTimeSn" jdbcType="VARCHAR" />
+    <result column="BATCH_NO" property="batchNo" jdbcType="VARCHAR" />
+    <result column="CYCLE_TYPE" property="cycleType" jdbcType="VARCHAR" />
+    <result column="CYCLE_VALUE" property="cycleValue" jdbcType="VARCHAR" />
+    <result column="HBASE_TABLE_NAME_PREFIX" property="hbaseTableNamePrefix" jdbcType="VARCHAR" />
+    <result column="CURRENT_COUNT" property="currentCount" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="CAL_DATE" property="calDate" jdbcType="TIMESTAMP" />
+    <result column="NEXT_CAL_DATE" property="nextCalDate" jdbcType="TIMESTAMP" />
+    <result column="RUN_STATE" property="runState" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    RECORD_ID, TENANT_ID, DATA_TYPE, POLICY_ID, OBJECT_ID, BILL_TIME_SN, BATCH_NO, CYCLE_TYPE, 
+    CYCLE_VALUE, HBASE_TABLE_NAME_PREFIX, CURRENT_COUNT, UPDATE_TIME, CAL_DATE, NEXT_CAL_DATE, 
+    RUN_STATE, STATE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.x.smc.bill.dao.mapper.bo.StlCalDataRecordCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from stl_cal_data_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from stl_cal_data_record
+    where RECORD_ID = #{recordId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="Long" >
+    delete from stl_cal_data_record
+    where RECORD_ID = #{recordId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.x.smc.bill.dao.mapper.bo.StlCalDataRecordCriteria" >
+    delete from stl_cal_data_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.x.smc.bill.dao.mapper.bo.StlCalDataRecord" >
+    insert into stl_cal_data_record (RECORD_ID, TENANT_ID, DATA_TYPE, 
+      POLICY_ID, OBJECT_ID, BILL_TIME_SN, 
+      BATCH_NO, CYCLE_TYPE, CYCLE_VALUE, 
+      HBASE_TABLE_NAME_PREFIX, CURRENT_COUNT, UPDATE_TIME, 
+      CAL_DATE, NEXT_CAL_DATE, RUN_STATE, 
+      STATE)
+    values (#{recordId,jdbcType=BIGINT}, #{tenantId,jdbcType=VARCHAR}, #{dataType,jdbcType=VARCHAR}, 
+      #{policyId,jdbcType=VARCHAR}, #{objectId,jdbcType=VARCHAR}, #{billTimeSn,jdbcType=VARCHAR}, 
+      #{batchNo,jdbcType=VARCHAR}, #{cycleType,jdbcType=VARCHAR}, #{cycleValue,jdbcType=VARCHAR}, 
+      #{hbaseTableNamePrefix,jdbcType=VARCHAR}, #{currentCount,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{calDate,jdbcType=TIMESTAMP}, #{nextCalDate,jdbcType=TIMESTAMP}, #{runState,jdbcType=VARCHAR}, 
+      #{state,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.x.smc.bill.dao.mapper.bo.StlCalDataRecord" >
+    insert into stl_cal_data_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="recordId != null" >
+        RECORD_ID,
+      </if>
+      <if test="tenantId != null" >
+        TENANT_ID,
+      </if>
+      <if test="dataType != null" >
+        DATA_TYPE,
+      </if>
+      <if test="policyId != null" >
+        POLICY_ID,
+      </if>
+      <if test="objectId != null" >
+        OBJECT_ID,
+      </if>
+      <if test="billTimeSn != null" >
+        BILL_TIME_SN,
+      </if>
+      <if test="batchNo != null" >
+        BATCH_NO,
+      </if>
+      <if test="cycleType != null" >
+        CYCLE_TYPE,
+      </if>
+      <if test="cycleValue != null" >
+        CYCLE_VALUE,
+      </if>
+      <if test="hbaseTableNamePrefix != null" >
+        HBASE_TABLE_NAME_PREFIX,
+      </if>
+      <if test="currentCount != null" >
+        CURRENT_COUNT,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="calDate != null" >
+        CAL_DATE,
+      </if>
+      <if test="nextCalDate != null" >
+        NEXT_CAL_DATE,
+      </if>
+      <if test="runState != null" >
+        RUN_STATE,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="recordId != null" >
+        #{recordId,jdbcType=BIGINT},
+      </if>
+      <if test="tenantId != null" >
+        #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null" >
+        #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="policyId != null" >
+        #{policyId,jdbcType=VARCHAR},
+      </if>
+      <if test="objectId != null" >
+        #{objectId,jdbcType=VARCHAR},
+      </if>
+      <if test="billTimeSn != null" >
+        #{billTimeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNo != null" >
+        #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleType != null" >
+        #{cycleType,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleValue != null" >
+        #{cycleValue,jdbcType=VARCHAR},
+      </if>
+      <if test="hbaseTableNamePrefix != null" >
+        #{hbaseTableNamePrefix,jdbcType=VARCHAR},
+      </if>
+      <if test="currentCount != null" >
+        #{currentCount,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="calDate != null" >
+        #{calDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nextCalDate != null" >
+        #{nextCalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="runState != null" >
+        #{runState,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.x.smc.bill.dao.mapper.bo.StlCalDataRecordCriteria" resultType="java.lang.Integer" >
+    select count(*) from stl_cal_data_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update stl_cal_data_record
+    <set >
+      <if test="record.recordId != null" >
+        RECORD_ID = #{record.recordId,jdbcType=BIGINT},
+      </if>
+      <if test="record.tenantId != null" >
+        TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataType != null" >
+        DATA_TYPE = #{record.dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.policyId != null" >
+        POLICY_ID = #{record.policyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.objectId != null" >
+        OBJECT_ID = #{record.objectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.billTimeSn != null" >
+        BILL_TIME_SN = #{record.billTimeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.batchNo != null" >
+        BATCH_NO = #{record.batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cycleType != null" >
+        CYCLE_TYPE = #{record.cycleType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cycleValue != null" >
+        CYCLE_VALUE = #{record.cycleValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hbaseTableNamePrefix != null" >
+        HBASE_TABLE_NAME_PREFIX = #{record.hbaseTableNamePrefix,jdbcType=VARCHAR},
+      </if>
+      <if test="record.currentCount != null" >
+        CURRENT_COUNT = #{record.currentCount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.calDate != null" >
+        CAL_DATE = #{record.calDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.nextCalDate != null" >
+        NEXT_CAL_DATE = #{record.nextCalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.runState != null" >
+        RUN_STATE = #{record.runState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null" >
+        STATE = #{record.state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update stl_cal_data_record
+    set RECORD_ID = #{record.recordId,jdbcType=BIGINT},
+      TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      DATA_TYPE = #{record.dataType,jdbcType=VARCHAR},
+      POLICY_ID = #{record.policyId,jdbcType=VARCHAR},
+      OBJECT_ID = #{record.objectId,jdbcType=VARCHAR},
+      BILL_TIME_SN = #{record.billTimeSn,jdbcType=VARCHAR},
+      BATCH_NO = #{record.batchNo,jdbcType=VARCHAR},
+      CYCLE_TYPE = #{record.cycleType,jdbcType=VARCHAR},
+      CYCLE_VALUE = #{record.cycleValue,jdbcType=VARCHAR},
+      HBASE_TABLE_NAME_PREFIX = #{record.hbaseTableNamePrefix,jdbcType=VARCHAR},
+      CURRENT_COUNT = #{record.currentCount,jdbcType=VARCHAR},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      CAL_DATE = #{record.calDate,jdbcType=TIMESTAMP},
+      NEXT_CAL_DATE = #{record.nextCalDate,jdbcType=TIMESTAMP},
+      RUN_STATE = #{record.runState,jdbcType=VARCHAR},
+      STATE = #{record.state,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.x.smc.bill.dao.mapper.bo.StlCalDataRecord" >
+    update stl_cal_data_record
+    <set >
+      <if test="tenantId != null" >
+        TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null" >
+        DATA_TYPE = #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="policyId != null" >
+        POLICY_ID = #{policyId,jdbcType=VARCHAR},
+      </if>
+      <if test="objectId != null" >
+        OBJECT_ID = #{objectId,jdbcType=VARCHAR},
+      </if>
+      <if test="billTimeSn != null" >
+        BILL_TIME_SN = #{billTimeSn,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNo != null" >
+        BATCH_NO = #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleType != null" >
+        CYCLE_TYPE = #{cycleType,jdbcType=VARCHAR},
+      </if>
+      <if test="cycleValue != null" >
+        CYCLE_VALUE = #{cycleValue,jdbcType=VARCHAR},
+      </if>
+      <if test="hbaseTableNamePrefix != null" >
+        HBASE_TABLE_NAME_PREFIX = #{hbaseTableNamePrefix,jdbcType=VARCHAR},
+      </if>
+      <if test="currentCount != null" >
+        CURRENT_COUNT = #{currentCount,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="calDate != null" >
+        CAL_DATE = #{calDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nextCalDate != null" >
+        NEXT_CAL_DATE = #{nextCalDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="runState != null" >
+        RUN_STATE = #{runState,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where RECORD_ID = #{recordId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.x.smc.bill.dao.mapper.bo.StlCalDataRecord" >
+    update stl_cal_data_record
+    set TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      DATA_TYPE = #{dataType,jdbcType=VARCHAR},
+      POLICY_ID = #{policyId,jdbcType=VARCHAR},
+      OBJECT_ID = #{objectId,jdbcType=VARCHAR},
+      BILL_TIME_SN = #{billTimeSn,jdbcType=VARCHAR},
+      BATCH_NO = #{batchNo,jdbcType=VARCHAR},
+      CYCLE_TYPE = #{cycleType,jdbcType=VARCHAR},
+      CYCLE_VALUE = #{cycleValue,jdbcType=VARCHAR},
+      HBASE_TABLE_NAME_PREFIX = #{hbaseTableNamePrefix,jdbcType=VARCHAR},
+      CURRENT_COUNT = #{currentCount,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      CAL_DATE = #{calDate,jdbcType=TIMESTAMP},
+      NEXT_CAL_DATE = #{nextCalDate,jdbcType=TIMESTAMP},
+      RUN_STATE = #{runState,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=VARCHAR}
+    where RECORD_ID = #{recordId,jdbcType=BIGINT}
+  </update>
+</mapper>

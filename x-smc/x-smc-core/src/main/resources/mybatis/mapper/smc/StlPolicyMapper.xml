@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.x.ic.smc.dao.mapper.interfaces.StlPolicyMapper" >
+  <resultMap id="BaseResultMap" type="com.x.ic.smc.dao.mapper.bo.StlPolicy" >
+    <id column="POLICY_ID" property="policyId" jdbcType="BIGINT" />
+    <result column="TENANT_ID" property="tenantId" jdbcType="VARCHAR" />
+    <result column="POLICY_CODE" property="policyCode" jdbcType="VARCHAR" />
+    <result column="POLICY_NAME" property="policyName" jdbcType="VARCHAR" />
+    <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="POLICY_TYPE" property="policyType" jdbcType="VARCHAR" />
+    <result column="POLICY_DESC" property="policyDesc" jdbcType="VARCHAR" />
+    <result column="EXEC_CYCLE" property="execCycle" jdbcType="VARCHAR" />
+    <result column="EXEC_TIME_STR" property="execTimeStr" jdbcType="VARCHAR" />
+    <result column="DATA_OBJECT_ID" property="dataObjectId" jdbcType="VARCHAR" />
+    <result column="DATA_ELEMENT_ID" property="dataElementId" jdbcType="BIGINT" />
+    <result column="STL_OBJECT_ID" property="stlObjectId" jdbcType="VARCHAR" />
+    <result column="STL_ELEMENT_ID" property="stlElementId" jdbcType="BIGINT" />
+    <result column="stl_element_sn" property="stlElementSn" jdbcType="VARCHAR" />
+    <result column="BILL_STYLE_SN" property="billStyleSn" jdbcType="VARCHAR" />
+    <result column="CHECK_FEE_FLAG" property="checkFeeFlag" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+    <result column="CREATE_DEPT_ID" property="createDeptId" jdbcType="VARCHAR" />
+    <result column="CREATE_OPER_ID" property="createOperId" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DEPT_ID" property="updateDeptId" jdbcType="VARCHAR" />
+    <result column="UPDATE_OPER_ID" property="updateOperId" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    POLICY_ID, TENANT_ID, POLICY_CODE, POLICY_NAME, START_TIME, END_TIME, POLICY_TYPE, 
+    POLICY_DESC, EXEC_CYCLE, EXEC_TIME_STR, DATA_OBJECT_ID, DATA_ELEMENT_ID, STL_OBJECT_ID, 
+    STL_ELEMENT_ID, stl_element_sn, BILL_STYLE_SN, CHECK_FEE_FLAG, STATE, CREATE_DEPT_ID, 
+    CREATE_OPER_ID, CREATE_TIME, UPDATE_DEPT_ID, UPDATE_OPER_ID, UPDATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.x.ic.smc.dao.mapper.bo.StlPolicyCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from stl_policy
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from stl_policy
+    where POLICY_ID = #{policyId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="Long" >
+    delete from stl_policy
+    where POLICY_ID = #{policyId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.x.ic.smc.dao.mapper.bo.StlPolicyCriteria" >
+    delete from stl_policy
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.x.ic.smc.dao.mapper.bo.StlPolicy" >
+    insert into stl_policy (POLICY_ID, TENANT_ID, POLICY_CODE, 
+      POLICY_NAME, START_TIME, END_TIME, 
+      POLICY_TYPE, POLICY_DESC, EXEC_CYCLE, 
+      EXEC_TIME_STR, DATA_OBJECT_ID, DATA_ELEMENT_ID, 
+      STL_OBJECT_ID, STL_ELEMENT_ID, stl_element_sn, 
+      BILL_STYLE_SN, CHECK_FEE_FLAG, STATE, 
+      CREATE_DEPT_ID, CREATE_OPER_ID, CREATE_TIME, 
+      UPDATE_DEPT_ID, UPDATE_OPER_ID, UPDATE_TIME
+      )
+    values (#{policyId,jdbcType=BIGINT}, #{tenantId,jdbcType=VARCHAR}, #{policyCode,jdbcType=VARCHAR}, 
+      #{policyName,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{policyType,jdbcType=VARCHAR}, #{policyDesc,jdbcType=VARCHAR}, #{execCycle,jdbcType=VARCHAR}, 
+      #{execTimeStr,jdbcType=VARCHAR}, #{dataObjectId,jdbcType=VARCHAR}, #{dataElementId,jdbcType=BIGINT}, 
+      #{stlObjectId,jdbcType=VARCHAR}, #{stlElementId,jdbcType=BIGINT}, #{stlElementSn,jdbcType=VARCHAR}, 
+      #{billStyleSn,jdbcType=VARCHAR}, #{checkFeeFlag,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
+      #{createDeptId,jdbcType=VARCHAR}, #{createOperId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateDeptId,jdbcType=VARCHAR}, #{updateOperId,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.x.ic.smc.dao.mapper.bo.StlPolicy" >
+    insert into stl_policy
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="policyId != null" >
+        POLICY_ID,
+      </if>
+      <if test="tenantId != null" >
+        TENANT_ID,
+      </if>
+      <if test="policyCode != null" >
+        POLICY_CODE,
+      </if>
+      <if test="policyName != null" >
+        POLICY_NAME,
+      </if>
+      <if test="startTime != null" >
+        START_TIME,
+      </if>
+      <if test="endTime != null" >
+        END_TIME,
+      </if>
+      <if test="policyType != null" >
+        POLICY_TYPE,
+      </if>
+      <if test="policyDesc != null" >
+        POLICY_DESC,
+      </if>
+      <if test="execCycle != null" >
+        EXEC_CYCLE,
+      </if>
+      <if test="execTimeStr != null" >
+        EXEC_TIME_STR,
+      </if>
+      <if test="dataObjectId != null" >
+        DATA_OBJECT_ID,
+      </if>
+      <if test="dataElementId != null" >
+        DATA_ELEMENT_ID,
+      </if>
+      <if test="stlObjectId != null" >
+        STL_OBJECT_ID,
+      </if>
+      <if test="stlElementId != null" >
+        STL_ELEMENT_ID,
+      </if>
+      <if test="stlElementSn != null" >
+        stl_element_sn,
+      </if>
+      <if test="billStyleSn != null" >
+        BILL_STYLE_SN,
+      </if>
+      <if test="checkFeeFlag != null" >
+        CHECK_FEE_FLAG,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+      <if test="createDeptId != null" >
+        CREATE_DEPT_ID,
+      </if>
+      <if test="createOperId != null" >
+        CREATE_OPER_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateDeptId != null" >
+        UPDATE_DEPT_ID,
+      </if>
+      <if test="updateOperId != null" >
+        UPDATE_OPER_ID,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="policyId != null" >
+        #{policyId,jdbcType=BIGINT},
+      </if>
+      <if test="tenantId != null" >
+        #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="policyCode != null" >
+        #{policyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="policyName != null" >
+        #{policyName,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="policyType != null" >
+        #{policyType,jdbcType=VARCHAR},
+      </if>
+      <if test="policyDesc != null" >
+        #{policyDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="execCycle != null" >
+        #{execCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="execTimeStr != null" >
+        #{execTimeStr,jdbcType=VARCHAR},
+      </if>
+      <if test="dataObjectId != null" >
+        #{dataObjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="dataElementId != null" >
+        #{dataElementId,jdbcType=BIGINT},
+      </if>
+      <if test="stlObjectId != null" >
+        #{stlObjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="stlElementId != null" >
+        #{stlElementId,jdbcType=BIGINT},
+      </if>
+      <if test="stlElementSn != null" >
+        #{stlElementSn,jdbcType=VARCHAR},
+      </if>
+      <if test="billStyleSn != null" >
+        #{billStyleSn,jdbcType=VARCHAR},
+      </if>
+      <if test="checkFeeFlag != null" >
+        #{checkFeeFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="createDeptId != null" >
+        #{createDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="createOperId != null" >
+        #{createOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDeptId != null" >
+        #{updateDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateOperId != null" >
+        #{updateOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.x.ic.smc.dao.mapper.bo.StlPolicyCriteria" resultType="java.lang.Integer" >
+    select count(*) from stl_policy
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update stl_policy
+    <set >
+      <if test="record.policyId != null" >
+        POLICY_ID = #{record.policyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.tenantId != null" >
+        TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.policyCode != null" >
+        POLICY_CODE = #{record.policyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.policyName != null" >
+        POLICY_NAME = #{record.policyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startTime != null" >
+        START_TIME = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null" >
+        END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.policyType != null" >
+        POLICY_TYPE = #{record.policyType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.policyDesc != null" >
+        POLICY_DESC = #{record.policyDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.execCycle != null" >
+        EXEC_CYCLE = #{record.execCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.execTimeStr != null" >
+        EXEC_TIME_STR = #{record.execTimeStr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataObjectId != null" >
+        DATA_OBJECT_ID = #{record.dataObjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataElementId != null" >
+        DATA_ELEMENT_ID = #{record.dataElementId,jdbcType=BIGINT},
+      </if>
+      <if test="record.stlObjectId != null" >
+        STL_OBJECT_ID = #{record.stlObjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stlElementId != null" >
+        STL_ELEMENT_ID = #{record.stlElementId,jdbcType=BIGINT},
+      </if>
+      <if test="record.stlElementSn != null" >
+        stl_element_sn = #{record.stlElementSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.billStyleSn != null" >
+        BILL_STYLE_SN = #{record.billStyleSn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkFeeFlag != null" >
+        CHECK_FEE_FLAG = #{record.checkFeeFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null" >
+        STATE = #{record.state,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDeptId != null" >
+        CREATE_DEPT_ID = #{record.createDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createOperId != null" >
+        CREATE_OPER_ID = #{record.createOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDeptId != null" >
+        UPDATE_DEPT_ID = #{record.updateDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateOperId != null" >
+        UPDATE_OPER_ID = #{record.updateOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update stl_policy
+    set POLICY_ID = #{record.policyId,jdbcType=BIGINT},
+      TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      POLICY_CODE = #{record.policyCode,jdbcType=VARCHAR},
+      POLICY_NAME = #{record.policyName,jdbcType=VARCHAR},
+      START_TIME = #{record.startTime,jdbcType=TIMESTAMP},
+      END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      POLICY_TYPE = #{record.policyType,jdbcType=VARCHAR},
+      POLICY_DESC = #{record.policyDesc,jdbcType=VARCHAR},
+      EXEC_CYCLE = #{record.execCycle,jdbcType=VARCHAR},
+      EXEC_TIME_STR = #{record.execTimeStr,jdbcType=VARCHAR},
+      DATA_OBJECT_ID = #{record.dataObjectId,jdbcType=VARCHAR},
+      DATA_ELEMENT_ID = #{record.dataElementId,jdbcType=BIGINT},
+      STL_OBJECT_ID = #{record.stlObjectId,jdbcType=VARCHAR},
+      STL_ELEMENT_ID = #{record.stlElementId,jdbcType=BIGINT},
+      stl_element_sn = #{record.stlElementSn,jdbcType=VARCHAR},
+      BILL_STYLE_SN = #{record.billStyleSn,jdbcType=VARCHAR},
+      CHECK_FEE_FLAG = #{record.checkFeeFlag,jdbcType=VARCHAR},
+      STATE = #{record.state,jdbcType=VARCHAR},
+      CREATE_DEPT_ID = #{record.createDeptId,jdbcType=VARCHAR},
+      CREATE_OPER_ID = #{record.createOperId,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      UPDATE_DEPT_ID = #{record.updateDeptId,jdbcType=VARCHAR},
+      UPDATE_OPER_ID = #{record.updateOperId,jdbcType=VARCHAR},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.x.ic.smc.dao.mapper.bo.StlPolicy" >
+    update stl_policy
+    <set >
+      <if test="tenantId != null" >
+        TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="policyCode != null" >
+        POLICY_CODE = #{policyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="policyName != null" >
+        POLICY_NAME = #{policyName,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        START_TIME = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="policyType != null" >
+        POLICY_TYPE = #{policyType,jdbcType=VARCHAR},
+      </if>
+      <if test="policyDesc != null" >
+        POLICY_DESC = #{policyDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="execCycle != null" >
+        EXEC_CYCLE = #{execCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="execTimeStr != null" >
+        EXEC_TIME_STR = #{execTimeStr,jdbcType=VARCHAR},
+      </if>
+      <if test="dataObjectId != null" >
+        DATA_OBJECT_ID = #{dataObjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="dataElementId != null" >
+        DATA_ELEMENT_ID = #{dataElementId,jdbcType=BIGINT},
+      </if>
+      <if test="stlObjectId != null" >
+        STL_OBJECT_ID = #{stlObjectId,jdbcType=VARCHAR},
+      </if>
+      <if test="stlElementId != null" >
+        STL_ELEMENT_ID = #{stlElementId,jdbcType=BIGINT},
+      </if>
+      <if test="stlElementSn != null" >
+        stl_element_sn = #{stlElementSn,jdbcType=VARCHAR},
+      </if>
+      <if test="billStyleSn != null" >
+        BILL_STYLE_SN = #{billStyleSn,jdbcType=VARCHAR},
+      </if>
+      <if test="checkFeeFlag != null" >
+        CHECK_FEE_FLAG = #{checkFeeFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="createDeptId != null" >
+        CREATE_DEPT_ID = #{createDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="createOperId != null" >
+        CREATE_OPER_ID = #{createOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDeptId != null" >
+        UPDATE_DEPT_ID = #{updateDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateOperId != null" >
+        UPDATE_OPER_ID = #{updateOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where POLICY_ID = #{policyId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.x.ic.smc.dao.mapper.bo.StlPolicy" >
+    update stl_policy
+    set TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      POLICY_CODE = #{policyCode,jdbcType=VARCHAR},
+      POLICY_NAME = #{policyName,jdbcType=VARCHAR},
+      START_TIME = #{startTime,jdbcType=TIMESTAMP},
+      END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      POLICY_TYPE = #{policyType,jdbcType=VARCHAR},
+      POLICY_DESC = #{policyDesc,jdbcType=VARCHAR},
+      EXEC_CYCLE = #{execCycle,jdbcType=VARCHAR},
+      EXEC_TIME_STR = #{execTimeStr,jdbcType=VARCHAR},
+      DATA_OBJECT_ID = #{dataObjectId,jdbcType=VARCHAR},
+      DATA_ELEMENT_ID = #{dataElementId,jdbcType=BIGINT},
+      STL_OBJECT_ID = #{stlObjectId,jdbcType=VARCHAR},
+      STL_ELEMENT_ID = #{stlElementId,jdbcType=BIGINT},
+      stl_element_sn = #{stlElementSn,jdbcType=VARCHAR},
+      BILL_STYLE_SN = #{billStyleSn,jdbcType=VARCHAR},
+      CHECK_FEE_FLAG = #{checkFeeFlag,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=VARCHAR},
+      CREATE_DEPT_ID = #{createDeptId,jdbcType=VARCHAR},
+      CREATE_OPER_ID = #{createOperId,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_DEPT_ID = #{updateDeptId,jdbcType=VARCHAR},
+      UPDATE_OPER_ID = #{updateOperId,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where POLICY_ID = #{policyId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.x.ic.smc.dao.mapper.interfaces.StlSysParamMapper" >
+  <resultMap id="BaseResultMap" type="com.x.ic.smc.dao.mapper.bo.StlSysParam" >
+    <id column="GUIDKEY" property="guidkey" jdbcType="VARCHAR" />
+    <result column="TENANT_ID" property="tenantId" jdbcType="VARCHAR" />
+    <result column="TYPE_CODE" property="typeCode" jdbcType="VARCHAR" />
+    <result column="PARAM_CODE" property="paramCode" jdbcType="VARCHAR" />
+    <result column="COLUMN_VALUE" property="columnValue" jdbcType="VARCHAR" />
+    <result column="COLUMN_DESC" property="columnDesc" jdbcType="VARCHAR" />
+    <result column="SUB_PARAM_CODE" property="subParamCode" jdbcType="VARCHAR" />
+    <result column="PARENT_VALUE" property="parentValue" jdbcType="VARCHAR" />
+    <result column="DISPORD" property="dispord" jdbcType="INTEGER" />
+    <result column="DESCB" property="descb" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+    <result column="UPDATE_DEPT_ID" property="updateDeptId" jdbcType="VARCHAR" />
+    <result column="UPDATE_OPER_ID" property="updateOperId" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    GUIDKEY, TENANT_ID, TYPE_CODE, PARAM_CODE, COLUMN_VALUE, COLUMN_DESC, SUB_PARAM_CODE, 
+    PARENT_VALUE, DISPORD, DESCB, STATE, UPDATE_DEPT_ID, UPDATE_OPER_ID, UPDATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.x.ic.smc.dao.mapper.bo.StlSysParamCriteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from stl_sys_param
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="limitStart != null and limitStart>=0" >
+      limit #{limitStart} , #{limitEnd}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from stl_sys_param
+    where GUIDKEY = #{guidkey,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from stl_sys_param
+    where GUIDKEY = #{guidkey,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.x.ic.smc.dao.mapper.bo.StlSysParamCriteria" >
+    delete from stl_sys_param
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.x.ic.smc.dao.mapper.bo.StlSysParam" >
+    insert into stl_sys_param (GUIDKEY, TENANT_ID, TYPE_CODE, 
+      PARAM_CODE, COLUMN_VALUE, COLUMN_DESC, 
+      SUB_PARAM_CODE, PARENT_VALUE, DISPORD, 
+      DESCB, STATE, UPDATE_DEPT_ID, 
+      UPDATE_OPER_ID, UPDATE_TIME)
+    values (#{guidkey,jdbcType=VARCHAR}, #{tenantId,jdbcType=VARCHAR}, #{typeCode,jdbcType=VARCHAR}, 
+      #{paramCode,jdbcType=VARCHAR}, #{columnValue,jdbcType=VARCHAR}, #{columnDesc,jdbcType=VARCHAR}, 
+      #{subParamCode,jdbcType=VARCHAR}, #{parentValue,jdbcType=VARCHAR}, #{dispord,jdbcType=INTEGER}, 
+      #{descb,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{updateDeptId,jdbcType=VARCHAR}, 
+      #{updateOperId,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.x.ic.smc.dao.mapper.bo.StlSysParam" >
+    insert into stl_sys_param
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="guidkey != null" >
+        GUIDKEY,
+      </if>
+      <if test="tenantId != null" >
+        TENANT_ID,
+      </if>
+      <if test="typeCode != null" >
+        TYPE_CODE,
+      </if>
+      <if test="paramCode != null" >
+        PARAM_CODE,
+      </if>
+      <if test="columnValue != null" >
+        COLUMN_VALUE,
+      </if>
+      <if test="columnDesc != null" >
+        COLUMN_DESC,
+      </if>
+      <if test="subParamCode != null" >
+        SUB_PARAM_CODE,
+      </if>
+      <if test="parentValue != null" >
+        PARENT_VALUE,
+      </if>
+      <if test="dispord != null" >
+        DISPORD,
+      </if>
+      <if test="descb != null" >
+        DESCB,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+      <if test="updateDeptId != null" >
+        UPDATE_DEPT_ID,
+      </if>
+      <if test="updateOperId != null" >
+        UPDATE_OPER_ID,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="guidkey != null" >
+        #{guidkey,jdbcType=VARCHAR},
+      </if>
+      <if test="tenantId != null" >
+        #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="typeCode != null" >
+        #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="paramCode != null" >
+        #{paramCode,jdbcType=VARCHAR},
+      </if>
+      <if test="columnValue != null" >
+        #{columnValue,jdbcType=VARCHAR},
+      </if>
+      <if test="columnDesc != null" >
+        #{columnDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="subParamCode != null" >
+        #{subParamCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentValue != null" >
+        #{parentValue,jdbcType=VARCHAR},
+      </if>
+      <if test="dispord != null" >
+        #{dispord,jdbcType=INTEGER},
+      </if>
+      <if test="descb != null" >
+        #{descb,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDeptId != null" >
+        #{updateDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateOperId != null" >
+        #{updateOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.x.ic.smc.dao.mapper.bo.StlSysParamCriteria" resultType="java.lang.Integer" >
+    select count(*) from stl_sys_param
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update stl_sys_param
+    <set >
+      <if test="record.guidkey != null" >
+        GUIDKEY = #{record.guidkey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tenantId != null" >
+        TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeCode != null" >
+        TYPE_CODE = #{record.typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paramCode != null" >
+        PARAM_CODE = #{record.paramCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.columnValue != null" >
+        COLUMN_VALUE = #{record.columnValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.columnDesc != null" >
+        COLUMN_DESC = #{record.columnDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subParamCode != null" >
+        SUB_PARAM_CODE = #{record.subParamCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentValue != null" >
+        PARENT_VALUE = #{record.parentValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dispord != null" >
+        DISPORD = #{record.dispord,jdbcType=INTEGER},
+      </if>
+      <if test="record.descb != null" >
+        DESCB = #{record.descb,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null" >
+        STATE = #{record.state,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDeptId != null" >
+        UPDATE_DEPT_ID = #{record.updateDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateOperId != null" >
+        UPDATE_OPER_ID = #{record.updateOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update stl_sys_param
+    set GUIDKEY = #{record.guidkey,jdbcType=VARCHAR},
+      TENANT_ID = #{record.tenantId,jdbcType=VARCHAR},
+      TYPE_CODE = #{record.typeCode,jdbcType=VARCHAR},
+      PARAM_CODE = #{record.paramCode,jdbcType=VARCHAR},
+      COLUMN_VALUE = #{record.columnValue,jdbcType=VARCHAR},
+      COLUMN_DESC = #{record.columnDesc,jdbcType=VARCHAR},
+      SUB_PARAM_CODE = #{record.subParamCode,jdbcType=VARCHAR},
+      PARENT_VALUE = #{record.parentValue,jdbcType=VARCHAR},
+      DISPORD = #{record.dispord,jdbcType=INTEGER},
+      DESCB = #{record.descb,jdbcType=VARCHAR},
+      STATE = #{record.state,jdbcType=VARCHAR},
+      UPDATE_DEPT_ID = #{record.updateDeptId,jdbcType=VARCHAR},
+      UPDATE_OPER_ID = #{record.updateOperId,jdbcType=VARCHAR},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.x.ic.smc.dao.mapper.bo.StlSysParam" >
+    update stl_sys_param
+    <set >
+      <if test="tenantId != null" >
+        TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      </if>
+      <if test="typeCode != null" >
+        TYPE_CODE = #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="paramCode != null" >
+        PARAM_CODE = #{paramCode,jdbcType=VARCHAR},
+      </if>
+      <if test="columnValue != null" >
+        COLUMN_VALUE = #{columnValue,jdbcType=VARCHAR},
+      </if>
+      <if test="columnDesc != null" >
+        COLUMN_DESC = #{columnDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="subParamCode != null" >
+        SUB_PARAM_CODE = #{subParamCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentValue != null" >
+        PARENT_VALUE = #{parentValue,jdbcType=VARCHAR},
+      </if>
+      <if test="dispord != null" >
+        DISPORD = #{dispord,jdbcType=INTEGER},
+      </if>
+      <if test="descb != null" >
+        DESCB = #{descb,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDeptId != null" >
+        UPDATE_DEPT_ID = #{updateDeptId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateOperId != null" >
+        UPDATE_OPER_ID = #{updateOperId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where GUIDKEY = #{guidkey,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.x.ic.smc.dao.mapper.bo.StlSysParam" >
+    update stl_sys_param
+    set TENANT_ID = #{tenantId,jdbcType=VARCHAR},
+      TYPE_CODE = #{typeCode,jdbcType=VARCHAR},
+      PARAM_CODE = #{paramCode,jdbcType=VARCHAR},
+      COLUMN_VALUE = #{columnValue,jdbcType=VARCHAR},
+      COLUMN_DESC = #{columnDesc,jdbcType=VARCHAR},
+      SUB_PARAM_CODE = #{subParamCode,jdbcType=VARCHAR},
+      PARENT_VALUE = #{parentValue,jdbcType=VARCHAR},
+      DISPORD = #{dispord,jdbcType=INTEGER},
+      DESCB = #{descb,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=VARCHAR},
+      UPDATE_DEPT_ID = #{updateDeptId,jdbcType=VARCHAR},
+      UPDATE_OPER_ID = #{updateOperId,jdbcType=VARCHAR},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where GUIDKEY = #{guidkey,jdbcType=VARCHAR}
+  </update>
+</mapper>

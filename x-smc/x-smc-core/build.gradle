@@ -1,0 +1,49 @@
+dependencies {
+    compile project(":x-smc-api")
+
+    compile ("org.apache.hbase:hbase-client:1.1.2") {
+        exclude group: 'com.sun.jersey', module: 'jersey-core'
+        exclude group: 'com.sun.jersey', module: 'jersey-json'
+        exclude group: 'com.sun.jersey', module: 'jersey-server'
+        exclude group: 'asm', module: 'asm'
+    }
+
+    compile 'org.mybatis:mybatis:3.3.0'
+    compile 'org.mybatis:mybatis-spring:1.2.3'
+    compile 'mysql:mysql-connector-java:5.1.36'
+    compile 'org.springframework:spring-tx:4.1.7.RELEASE'
+    compile 'org.springframework:spring-jdbc:4.1.7.RELEASE'
+    compile 'org.apache.httpcomponents:httpclient:4.5'
+    compile 'org.apache.logging.log4j:log4j-slf4j-impl:2.4'
+    compile 'commons-codec:commons-codec:1.9'
+    compile 'org.apache.poi:poi:3.13'
+    compile ("org.apache.poi:poi-ooxml:3.13"){exclude group:'stax',module:'stax-api'}
+    compile 'org.apache.poi:poi-ooxml-schemas:3.13'
+    compile 'xmlbeans:xmlbeans:2.3.0'
+
+	compile ('com.x:sdk:1.0.1-SNAPSHOT') {
+		exclude group: 'org.dom4j', module: 'dom4j'
+		exclude group:'org.jboss.netty', module:'netty'
+	}
+    compile 'com.x.ic.dshm:dshmprocess:2.0-SNAPSHOT'
+    compile 'com.x.rtm:datacollect:1.0.0-SNAPSHOT'
+    //compile ('com.ifudata.dvp:dvp-redis:2.0-SNAPSHOT') {
+    //	exclude group: 'org.springframework'
+    //}
+    //compile ('com.ifudata.dvp:dvp-redis-init:2.3-SNAPSHOT') {
+    //	exclude group: 'org.springframework'
+    //}
+
+    //本地依赖包
+    compile files('libs/cpdetector_1.0.10.jar')
+    compile files('libs/ant.jar')
+    compile fileTree(dir: 'libs/ext', include: '*.jar')
+
+    testCompile(
+            "org.springframework:spring-test:4.1.7.RELEASE",
+            "junit:junit:4.12"
+            )
+}
+configurations {
+
+}

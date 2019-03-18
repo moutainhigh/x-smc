@@ -1,0 +1,151 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+
+sourceCompatibility = 1.8
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+compileJava.dependsOn clean
+publish.dependsOn build
+
+ext {
+    moduleName = "x-hbase-client";
+    moduleVersion = "1.0-SNAPSHOT"
+    publishUserName = "bonc-dev-app"
+    publishUserPassword = "bonc-dev-app"
+    publishSnapshotsURL = "http://172.16.8.35:8081/nexus/content/repositories/snapshots/"
+    publishReleasesURL = "http://172.16.8.35:8081/nexus/content/repositories/releases/"
+    //mavenPublicURL = "http://172.16.8.35:8081/nexus/nexus/content/groups/public/"
+    builtBy = "gradle 4.0.1"
+
+    hbaseClientVersion = "1.0.1.1"
+    gsonVersion = "2.3.1"
+    commonsDBUtils = "1.5"
+}
+
+group = 'com.x.hbase'
+
+sourceSets {
+    main {
+        java {
+            srcDirs = [
+                'src/main/java'
+            ]
+        }
+    }
+}
+
+repositories {
+    maven { url "http://172.16.8.35:8081/nexus/content/groups/public/" }
+}
+
+dependencies {
+    
+    compile 'com.google.code.gson:gson:' + gsonVersion
+    compile 'com.zaxxer:HikariCP:2.4.0'
+    compile 'commons-dbutils:commons-dbutils:' + commonsDBUtils
+    compile 'net.sf.json-lib:json-lib:2.4:jdk15'
+    
+    compile ("org.apache.hbase:hbase-client:${hbaseClientVersion}"){
+	    	exclude group:'javax.servlet',module:'servlet-api'
+	    	exclude group: 'com.sun.jersey'
+	    	exclude group: 'com.google.guava'
+    }
+    compile ('com.x:sdk:1.0.1-SNAPSHOT') {
+		exclude group: 'org.dom4j', module: 'dom4j'
+		exclude group:'org.jboss.netty', module:'netty'
+		exclude group: 'com.google.guava'
+	}
+	// 强制使用版本解决冲突
+    compile (group: 'com.google.guava', name: 'guava', version: '12.0.1') {
+        force = true
+    }
+}
+
+configurations {
+	all*.exclude group: 'org.apache.logging.log4j',module:'log4j-slf4j-impl'
+    //all*.exclude group: 'org.slf4j',module:'log4j-over-slf4j'
+}
+
+sourceSets {
+    main {
+        java { srcDirs = ['src/main/java'] }
+        resources { srcDirs = ['src/main/resources'] }
+    }
+    test {
+        java { srcDirs = ['src/test/java'] }
+        resources { srcDirs = ['src/test/resources'] }
+    }
+}
+
+
+jar {
+	//include "com/x/hbase/*/**"
+    baseName moduleName
+    version moduleVersion
+	manifest {
+        attributes 'packageName': baseName, 'Built-By': builtBy,'create-date': new Date().format('yyyy-MM-dd HH:mm:ss'), 'Manifest-Version': version
+    }
+}
+
+task sourceJar(type: Jar) {
+  baseName moduleName
+  version moduleVersion
+  classifier "sources"
+  from sourceSets.main.allJava
+  manifest {
+        attributes 'packageName': baseName, 'Built-By': builtBy,'create-date': new Date().format('yyyy-MM-dd HH:mm:ss'), 'Manifest-Version': version
+  }
+}
+
+publishing {
+	publications {
+		publishing.publications.create("${moduleName}", MavenPublication) {
+		from components.java
+		groupId group
+		artifactId moduleName
+		version moduleVersion
+		artifact(sourceJar) {
+			classifier "sources"
+		}
+		pom.withXml {
+			//asNode().children().last() + {
+				//delegate.dependencies {
+	                //delegate.dependency{
+	                //    delegate.groupId("org.apache.hbase")
+	                //    delegate.artifactId("hbase-client")
+	                //    delegate.version(hbaseClientVersion)
+	                //}
+	                //delegate.dependency{
+	                //    delegate.groupId("com.google.code.gson")
+	                //    delegate.artifactId("gson")
+	                //    delegate.version(gsonVersion)
+	                //}
+	
+	                //delegate.dependency{
+	                //    delegate.groupId("commons-dbutils")
+	                //    delegate.artifactId("commons-dbutils")
+	                //    delegate.version(commonsDBUtils)
+	                //}
+	
+	            //}
+	        //}
+			}//end of pom.withXml
+	    }//end of publishJar
+    }//publications
+    repositories {
+        maven {
+            if(moduleVersion.endsWith('-SNAPSHOT')) {
+                url publishSnapshotsURL
+            } else {
+                url publishReleaseURL
+            }
+            credentials {
+                username = publishUserName
+                password = publishUserPassword
+            }
+        }
+    }
+}
+
+
